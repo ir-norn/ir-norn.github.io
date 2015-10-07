@@ -11,6 +11,7 @@ ruby
 i not like java & haskell and Engulissyu
 
 ### Contact me
-
-{% include svg-icons.html %}
+<div class="footer_list">
+<ul><li>{% include svg-icons.html %}
+</li></ul></div>
 
