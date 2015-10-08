@@ -8,7 +8,7 @@ rubyist
 
 ### More Information
 
-i not like java & haskell and Engulissyu
+
 
 ### Contact me
 <div class="footer_list">
