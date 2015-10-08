@@ -9,6 +9,12 @@ layout: default
       <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
       <div class="title_date">{{ page.date | date: "%F" }}</div>
 
+<article class="post">
+  <div class="date">
+    Written on {{ page.date | date: "%B %e, %Y" }}
+  </div>
+</article>
+
       <div class="entry">
         {{ post.excerpt }}
       </div>
