@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-ruby
+rubyist
 
 ### More Information
 
