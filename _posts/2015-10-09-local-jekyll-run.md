@@ -39,7 +39,7 @@ http://127.0.0.1:4000/
 [Github Pages Dependency versions](https://pages.github.com/versions/)
 
 ***
-github 2015 10 09 時点での動作の為に必要っぽいもの
+githubのjekyll-now 2015 10 09 時点での動作の為に必要っぽいもの
 
 - `gem install jekyll-sitemap`
 - `gem install sass`
