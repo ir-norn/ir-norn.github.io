@@ -8,21 +8,21 @@ categories: jekyll
 ### ローカル環境でJekyll動かすまでのまとめ。
 
 1. Ruby 入れる
-2. ruby-dkキット入れる
+2. ruby-dk入れる
 3. gemsいろいろ
-- gem install jekyll
-- gem install rouge
+- `gem install jekyll`
+- `gem install rouge`
 
 4. Python２.ｘ系入れる（ pipも入れる
-- python -m pip install Pygments
-- gem install wdm
+- `python -m pip install Pygments`
+- `gem install wdm`
 
 ***
 そしたら以下のコマンドうつ
 
-- jekyll new site-name
-- cd site-name
-- jekyll serve
+- `jekyll new site-name`
+- `cd site-name`
+- `jekyll serve`
 
 http://127.0.0.1:4000/
 
@@ -33,15 +33,17 @@ http://127.0.0.1:4000/
 
 テスト環境
 
-- ruby 2.2.3p173 (2015-08-18 revision 51636) [x64-mingw32]
-- jekyll 2.5.3
+- *ruby 2.2.3p173 (2015-08-18 revision 51636) [x64-mingw32]*
+- *jekyll 2.5.3*
+
+[Github Pages Dependency versions](https://pages.github.com/versions/)
 
 ***
 github 2015 10 09 時点での動作の為に必要っぽいもの
 
-- gem install jekyll-sitemap
-- gem install sass
-- gem install compass
+- `gem install jekyll-sitemap`
+- `gem install sass`
+- `gem install compass`
 
 補足：scssがimportの時にマルチバイト文字のディレクトリ辿れない<br>
 外国産のライブラリ使う時は仕方ないね<br>
@@ -51,6 +53,21 @@ capt
 
 [![_config.yml]({{ site.baseurl }}/images/jkl_cap1.jpg)]({{ site.baseurl }}/images/jkl_cap1.jpg "jkl_cap1.jpg")
 
+{% highlight ruby %}
+def print_hi(name)
+  puts "Hi, #{name}"
+end
+print_hi('Tom')
+#=> prints 'Hi, Tom' to STDOUT.
+{% endhighlight %}
+
+
+Link
+
+[Run Jekyll on Windows](http://jekyll-windows.juthilo.com/)
+[jekyllrb.com](http://jekyllrb.com/)
+[Document](http://jekyllrb.com/docs/home/)
+[Document ja](http://jekyllrb-ja.github.io/docs/home/)
 
 [jekyll]:      http://jekyllrb.com
 [jekyll-gh]:   https://github.com/jekyll/jekyll
