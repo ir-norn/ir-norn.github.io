@@ -26,8 +26,7 @@ categories: jekyll
 
 http://127.0.0.1:4000/
 
-![_config.yml]({{ site.baseurl }}/images/jekyll_install_seccess.jpg)
-
+[![_config.yml]({{ site.baseurl }}/images/jekyll_install_seccess.jpg)]({{ site.baseurl }}/images/jekyll_install_seccess.jpg "jekyll_install_seccess.jpg")
 
 こんなのが表示されればインストール成功
 
@@ -45,7 +44,12 @@ github 2015 10 09 時点での動作の為に必要っぽいもの
 - gem install compass
 
 補足：scssがimportの時にマルチバイト文字のディレクトリ辿れない<br>
-外国産のライブラリ使う時は仕方ないね
+外国産のライブラリ使う時は仕方ないね<br>
+<br>
+
+capt
+
+[![_config.yml]({{ site.baseurl }}/images/jkl_cap1.jpg)]({{ site.baseurl }}/images/jkl_cap1.jpg "jkl_cap1.jpg")
 
 
 [jekyll]:      http://jekyllrb.com
