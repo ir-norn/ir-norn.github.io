@@ -54,20 +54,26 @@ capt
 [![_config.yml]({{ site.baseurl }}/images/jkl_cap1.jpg)]({{ site.baseurl }}/images/jkl_cap1.jpg "jkl_cap1.jpg")
 
 {% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
+#coding:utf-8
+def f n
+  puts n.encoding
 end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
+f("str")
+#=> UTF-8
 {% endhighlight %}
 
 
-Link
+#Link
 
 [Run Jekyll on Windows](http://jekyll-windows.juthilo.com/)
+
 [jekyllrb.com](http://jekyllrb.com/)
+
 [Document](http://jekyllrb.com/docs/home/)
+
 [Document ja](http://jekyllrb-ja.github.io/docs/home/)
+
+***
 
 [jekyll]:      http://jekyllrb.com
 [jekyll-gh]:   https://github.com/jekyll/jekyll
