@@ -14,4 +14,4 @@ rubyist
 <div class="footer_list">
 <ul><li>{% include svg-icons.html %}
 </li></ul></div>
-
+ 
