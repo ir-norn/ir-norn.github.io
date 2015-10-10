@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /.sass-cache/
+Disallow: /_includes/
+Disallow: /_leyouts/
+Disallow: /_posts/
+Disallow: /_sass/
+Disallow: /_images/
+Disallow: /script/
+Disallow: /*?*
+Disallow: /*?
+Allow: /in/
+
+Sitemap: http://ir-norn.github.io/sitemap.xml
