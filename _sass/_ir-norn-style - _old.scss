@@ -9,43 +9,48 @@ a  { text-decoration: none; }
 li { list-style:none; }
 /* ------ header main ------ */
 div.head_main {
-  margin: 0 auto; padding: 0 auto;
-  background: #4e3338;
-  color: #f4e1d5;
-  height: 400px;
-  a { color: #f4e1d5; }
-  a:active { color: #fff; }
-  ul.left li { float: left; }
-  div.d_main {
     margin: 0 auto; padding: 0 auto;
-    width : 800px;
-    div.title { 
-      float: left;
-      background: #f2efe7;  
-      height : 20% ;
-      color : #4e3338 ;
-      div.logo { 
+    background: #4e3338;
+    color: #f4e1d5;
+    height: 400px;
+}
+div.head_main a { color: #f4e1d5; }
+div.head_main a:active { color: #fff; }
+div.head_main ul.left li { float: left; }
+div.head_main div.d_main {
+      margin: 0 auto; padding: 0 auto;
+      width : 800px;
+}
+div.head_main div.d_main div.title { 
         float: left;
-        padding: 5px;
-        img.logo { width: 60px; border-radius: 20%; }
-      }
-      div.name {
+        background: #f2efe7;  
+        height : 20% ;
+        color : #4e3338 ;
+   div.logo { 
+          float: left;
+          padding: 5px;
+   }
+}
+/*
+div.head_main div.d_main div.title div.logo { 
+          float: left;
+          padding: 5px;
+}
+*/
+div.head_main div.d_main div.title div.logo img.logo { width: 60px; border-radius: 20%; }
+div.head_main div.d_main div.title div.name {
           padding-left: 60px;
           padding-right: 100px;
           font-size: 32px;
           font-family: AR DECODE ;
           white-space: nowrap;
-      } //name
-      div.description { font-size: 12px; padding-left: 60px; }
-    }//title
-    div.login { 
-      float: right;
-      padding-left: 14px;
-      font-family: AR CARTER ;
-    }
-  }//d_main
-}//head
-
+}
+div.head_main div.d_main div.title div.description { font-size: 12px; padding-left: 60px; }
+div.head_main div.d_main div.login { 
+          float: right;
+          padding-left: 14px;
+          font-family: AR CARTER ;
+}
 /* ------ header main ------ *//* ------ menu ------ */
 div.menu { 
     clear:both;

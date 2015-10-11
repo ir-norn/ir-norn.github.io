@@ -1,4 +1,4 @@
-<html><head>
+﻿<html><head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>{% if page.title %}{{ page.title }} ? {% endif %}{{ site.name }} ? {{ site.description }}</title>
     {% include meta.html %}
@@ -14,12 +14,57 @@
 if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
     document.write('<style><!-- body{ width : 1200px; } --></style>'); } else {document.write(''); }
 --></script>
+
+
+{% for category in site.categories %}
+  <li><a name="{{ category | first }}">{{ category | first }}</a>
+    <ul>
+    {% for posts in category %}
+      {% for post in posts %}
+        <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+      {% endfor %}
+    {% endfor %}
+    </ul>
+  </li>
+{% endfor %}
+
+<hr>
+ <ul>
+  {% for post in site.posts %}
+    <li>
+    {% for cate in post.categories %}
+      <font size="+2">{{ cate }}</font> &gt;
+    {% endfor %}
+      <a href="{{ post.url }}">{{ post.title }}</a></li>
+  {% endfor %}
+ </ul>
+en
+<hr>
+------
+<!--
+
+{% for tag in site.tags %}
+  <li><a name="{{ tag | first }}">{{ tag | first }}</a>
+    <ul>
+    {% for posts in tag %}
+      {% for post in posts %}
+        <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+      {% endfor %}
+    {% endfor %}
+    </ul>
+  </li>
+{% endfor %}
+-->
+
+
+
+
 <div class="head_main">
  <div class="d_main">
   <div class="title">
   <div class="logo"><img class="logo" src="{{ site.baseurl }}/images/24614604_480x480.jpg"></div>
-  <div class="name">ir-norn.github.io</div>
-  <div class="description">scripting</div>
+  <div class="name">{{ site.name }}</div>
+  <div class="description">{{ site.description }}</div>
   </div>
   <div class="login"> 
     <ul class="left">
@@ -31,7 +76,7 @@ if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('i
   <div class="menu"> 
     <ul class="left_nav">
     <li>[ <a href="{{ site.baseurl }}/">home</a> ]</li>
-    <li>[ <a href="{{ site.baseurl }}/category">Category</a> ]</li>
+    <li>[ <a href="{{ site.baseurl }}/about">Category</a> ]</li>
     <li>[ <a href="{{ site.baseurl }}/about">About</a> ]</li>
     <li>[ <a href="https://gist.github.com/ir-norn">gist</a> ]</li>
     <li>/</li>

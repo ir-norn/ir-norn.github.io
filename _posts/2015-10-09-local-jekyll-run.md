@@ -2,8 +2,10 @@
 layout: post
 title:  "local-jekyll-run"
 date:   2015-10-09 18:51:38
-categories: jekyll
+categories: [ jekyll , how-to ]
+tags: [ github, jekyll ]
 ---
+
 
 ### ローカル環境でJekyll動かすまでのまとめ。
 

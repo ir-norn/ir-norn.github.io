@@ -9,8 +9,23 @@ layout: default
     {{ content }}
   </div>
 
+  <div class="categorys">
+    Categorys [
+    {% for cate in page.categories %}
+      {{ cate }} ,
+    {% endfor %}
+    ]
+  </div>
+  <div class="tags">
+    Tags [
+    {% for tag in page.tags %}
+      {{ tag }} ,
+    {% endfor %}
+    ]
+  </div>
+
   <div class="date">
-    Written on {{ page.date | date: "%B %e, %Y" }}
+    Written on {{ page.date | date: "%F" }}
   </div>
 
   {% include disqus.html %}
