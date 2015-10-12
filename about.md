@@ -8,6 +8,9 @@ rubyist
 
 ### More Information
 
+This page has been created by jekyll
+<br><br>
+適当にblog作る遊び
 
 
 ### Contact me

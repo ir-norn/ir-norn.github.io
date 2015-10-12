@@ -4,12 +4,9 @@ title: category
 permalink: /category/
 ---
 
-<hr>
-
 <ul>
 {% for category in site.categories %}
   <li><h1><a name="{{ category | first }}">{{ category | first }}</a></h1>
-    
     {% for posts in category %}
       {% for post in posts %}
         <a href="{{ post.url }}">{{ post.title }}</a> /
@@ -17,7 +14,7 @@ permalink: /category/
     {% endfor %}
   </li>
 {% endfor %}
-</ur>
+</ul>
 <hr>
 
  <ul>

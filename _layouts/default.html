@@ -19,7 +19,6 @@ if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('i
   {% include hedder.html %}
 </div>
 
-
 <div style="width:1000px; margin: 0 auto; padding: 0 auto;">
 
 <div id="main" role="main" class="container" style="float:left">
@@ -27,7 +26,64 @@ if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('i
 </div>
 
 <div style="float:left">
-  site menu
+<b>　</b>
+  <style> 
+    div.side_bar {
+      padding:5px;
+      margin-bottom: 20px;
+      background : #fdfdfd;
+      width:250px;
+      height: 100%px;
+      border: 1px solid #bbbbcc;
+    }
+    div.side_bar_name {
+      background : #eee;
+      text-align:center;
+    }
+  </style>
+  <div class="side_bar">
+   <div class="side_bar_name">プロフィール</div>
+   <img src="{{ site.baseurl }}/images/21963504.jpg" width="230"><br>
+   Auther : ir-norn
+  </div>
+
+  <div class="side_bar">
+   <div class="side_bar_name">カレンダー</div>   
+  </div>
+
+  <div class="side_bar">
+   <div class="side_bar_name">記事一覧</div> 
+	
+   <ul>
+	 {% for post in site.posts %}
+	  {% capture month %}{{ post.date | date: '%m%Y' }}{% endcapture %}
+	  {% capture nmonth %}{{ post.next.date | date: '%m%Y' }}{% endcapture %}
+	  {% if month != nmonth %}
+	  <li style="list-style: none">
+	    <a href="/{{ post.date | date: '%Y/%m/' }}">
+	      <span class="item-year" title="{{ post.date | date: '%Y年' }}">{{ post.date | date: '%Y' }}</span>
+	      <span class="item-month" title="{{ post.date | date: '%m月' }}">{{ post.date | date: '%m' }}</span>
+	    </a>
+	  </li>
+	  {% endif %}
+	{% endfor %}
+  </ul>
+
+  </div>
+
+  <div class="side_bar">
+    <div class="side_bar_name">カテゴリ</div> 
+    <ul>
+      {% for category in site.categories %}
+        <li style="list-style: none"><a href="{{ site.baseurl }}/{{ category | first }}">{{ category | first }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  
+  <div class="side_bar">
+    <div class="side_bar_name">ウィジェット</div>   
+  </div>
+
 </div>
 
 
@@ -46,6 +102,12 @@ if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('i
     {% endfor %} ]
   </div>
  --> 
+ 
+ 
+
+
+
+
  
  
 <div class="foot_main2">
