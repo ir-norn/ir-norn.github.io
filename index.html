@@ -2,17 +2,26 @@
 layout: default
 ---
 
-<div class="posts">
+<div class="posts" style="float:left">
   {% for post in site.posts %}
     <article class="post">
-
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
-
-      <div class="entry">
-        {{ post.excerpt }}
+     
+      <div class="data_title">
+        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.date | date: "%F" }} {{ post.title }}</a>
+      </div>
+      <div class="categories">
+      {% for cate in post.categories %}
+         {{ cate }}
+      {% endfor %}
       </div>
 
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
+      <div class="entry_border">
+        <div class="entry">
+          {{ post.excerpt }}
+          <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">read more</a>
+        </div>
+      </div>
     </article>
   {% endfor %}
 </div>
+

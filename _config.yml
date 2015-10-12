@@ -63,9 +63,9 @@ permalink: /blog/:categories/:title
 version: v1.1.0
 
 # Set the Sass partials directory, as we're using @imports
-# compact
+# --sstyle compact compressed nested expanded
 sass:
-  style: :expanded # You might prefer to minify using :compressed
+  style: :nested # You might prefer to minify using :compressed
 
 # Use the following plug-ins
 gems:

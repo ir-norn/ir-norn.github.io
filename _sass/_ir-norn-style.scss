@@ -1,30 +1,33 @@
 /**/
 /*  2010 10 11  */
 /**/
+/* thanks hedder img pekefw_ */
 /* ------ init ------ */
-body{ margin:0; background: #f2efe7;
-    font-family:"comic sans ms",verdana,sans-serif;
+body{ margin:0; background: #fdfdfd;
+    font-family:verdana,sans-serif,"comic sans ms";
 }
 a  { text-decoration: none; } 
-li { list-style:none; }
+/* variables */
+$main_bgcolor : #FFF ;
+$hedder_color : #FFF ;
+$alink : #b7cbea ;
+$site_width : 1000px;
 /* ------ header main ------ */
 div.head_main {
   margin: 0 auto; padding: 0 auto;
-  background: #4e3338;
-  color: #f4e1d5;
+  background: $hedder_color;
   height: 400px;
-  a { color: #f4e1d5; }
-  a:active { color: #fff; }
+  li { list-style:none; }
   ul.left li { float: left; }
-  div.d_main {
+  div.main {
     margin: 0 auto; padding: 0 auto;
-    width : 800px;
+    width : $site_width;
     div.title { 
       float: left;
-      background: #f2efe7;  
+      background: #f2efe7;
       height : 20% ;
       color : #4e3338 ;
-      div.logo { 
+      div.logo {
         float: left;
         padding: 5px;
         img.logo { width: 60px; border-radius: 20%; }
@@ -41,119 +44,108 @@ div.head_main {
     div.login { 
       float: right;
       padding-left: 14px;
-      font-family: AR CARTER ;
+      font-family:""  ;
     }
   }//d_main
 }//head
 
 /* ------ header main ------ *//* ------ menu ------ */
 div.menu { 
-    clear:both;
+  clear:both;
+  margin:0; padding:0;
+  position:relative; top:10px; 
+  height: 10%;  
+  font-size: 30;
+  text-align: left ;
+  a         { color: #4e3338;  }
+  a:hover   { opacity : 0.3;   }
+  a:active  { color: #fdfdfd;  }
+  ul.left_nav {
     margin:0; padding:0;
-    height: 10%;  
-    font-size: 30;
-    text-align: left ;
-    background: #f2efe7;  
-    color : #4e3338;
-}
-// $menu_link: #4e3338;
-div.menu a         { color: #4e3338; } 
-div.menu a:link    { color: #4e3338; }
-div.menu a:visited { color: #4e3338; }
-div.menu a:hover   { color: #4e3338; }
-div.menu a:active  { color: #fdfdfd; }
-div.menu ul.left_nav {
-      margin:0; padding:0;
-      width:100%;
-      height:100%;
-      display:table;
-      table-layout: fixed;
-}
-div.menu ul.left_nav li {
-        font-family: AR HERMANN;
-        font-size: 30px;
-        display:table-cell;
-        vertical-align:middle;
-        text-align:center;
-        background: #dad2bc;
-}
- /* Giddyup Std */
+    width:100%;
+    height:100%;
+    display:table;
+    table-layout: fixed;
+    li {
+      margin-left:30px;
+      background: #dad2bc;
+      font-family: AR HERMANN;
+      font-size: 30px;
+      display:table-cell;
+      vertical-align:middle;
+      text-align:center;
+    }// li
+  }// ul
+}// menu
+/* Giddyup Std */
 /* ------ header main ------ *//* ------ header contents ------ */
-
-div.head_main div.d_main div.contents {
+div.head_main div.main div.contents {
    position:relative; top : 20px;
    height:80%;
-}
-div.head_main div.d_main div.contentsA {
-    float: left;   
-    width: 30%;
-    height: 70%;
-}
-div.head_main div.d_main div.contentsA img {
-      height:100%;
-      padding-top : 10px;
-}
-div.head_main div.d_main div.contentsM {
-      float: left;
-      height: 70%;
-      width: 45%;
-      padding-top : 10px;
-      padding-left: 5px;
-      border-top: 3px dashed #995555;
-      font-family: Consolas , AR DECODE ;
-}
-div.head_main div.d_main div.contentsB {
-      position:relative; left:30px;
-      float: left;
-      height: 70%;
-      width: 20%;
-      border-top: 3px dashed #779966;
-}
-div.head_main div.d_main ul.contentesB li { 
-        font-family: Consolas , fantasy ;
-        padding-top: 17% ;
+   img.hedder { width:$site_width; height:200px; }
 }
 /* ------ site contents ------ */
 div.contents_main { }
 /* ------ footer ------ */
 div.foot_main { 
-    margin: 0; padding:0;
-    background: #d3c9ae;  
-    height: 400px;  
-    color: #f4e1d5;
-}
-div.foot_main a         { color: #4e3338; } 
-div.foot_main a:link    { color: #4e3338; }
-div.foot_main a:visited { color: #4e3338; }
-div.foot_main a:hover   { color: #4e3338; }
-div.foot_main a:active  { color: #fdfdfd; }
-div.foot_main div.footer_list {
-      float: left; 
-      margin:10;
-      width : 25%;
-      color: #FFF;
-      text-align : left ;
-      font-family: Consolas , fantasy ;
-      font-size:17;
+  margin: 0; padding:0;
+  height: 400px;  
+  background: #d3c9ae;  
+  color: #f4e1d5;
+  a { color: #4e3338; } 
+  a:link    { color: #4e3338; }
+  a:visited { color: #4e3338; }
+  a:hover   { color: #4e3338; }
+  a:active  { color: #fdfdfd; }
+  li { list-style: none; }
+  div.footer_list {
+    float: left; 
+    margin:10;
+    width : 25%;
+    text-align : left ;
+    font-family: Consolas , fantasy ;
+    color: #FFF;
+    font-size:17;
+  }
 }
 /* ------ copy rights ------ */
 div.foot_main2 {
-    clear : both;
-    margin: 0 auto;
-    padding:0;
-    background: #bca882;  
-    height: 20px;  
-}
-div.foot_main2 div.copyrights {
-    font-family: AR DECODE , AR HERMANN ;
-    color: #ece8b1;
+  clear : both;
+  margin: 0 auto;  padding:0 auto;
+  background: #bca882;  
+  height: 20px;
+  div.copyrights {
     height: 100%;
     text-align:center;
+    font-family: AR DECODE , AR HERMANN ;
+    color: #ece8b1;
+  }
 }
 
 
 /* */
 
-div.entry {
-    font-family: Consolas , fantasy ;
+div.entry_border {
+  width :100%;
+  display:table;
 }
+
+div.entry {
+  height:200px;
+  background-color:#eee;
+  padding-left  : 10px ;
+  padding-right : 10px ;
+  display:table-cell;
+  vertical-align:top;
+  font-family: Consolas , fantasy ;
+}
+
+div.data_title {
+  float:left;
+}
+
+
+div.categories {
+  text-align:right;
+}
+
