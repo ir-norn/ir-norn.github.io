@@ -3,15 +3,20 @@
 /**/
 /* thanks hedder img pekefw_ */
 /* ------ init ------ */
-body{ margin:0; background: #fdfdfd;
-    font-family:verdana,sans-serif,"comic sans ms";
+
+body {
+  background: $white;
+  margin:10; background: #fdfdfd;
+  font-family: $helvetica , verdana,sans-serif,"comic sans ms";
+  color: $darkGray;
 }
-a  { text-decoration: none; } 
+a { text-decoration: none; } 
 /* variables */
 $main_bgcolor : #FFF ;
 $hedder_color : #FFF ;
 $alink : #b7cbea ;
 $site_width : 1000px;
+
 /* ------ header main ------ */
 div.head_main {
   margin: 0 auto; padding: 0 auto;
@@ -85,7 +90,15 @@ div.head_main div.main div.contents {
    img.hedder { width:$site_width; height:200px; }
 }
 /* ------ site contents ------ */
-div.contents_main { }
+div.contents {
+ width : $site_width ; margin: 0 auto; padding: 0 auto;
+}
+div.container {
+  margin: 0 auto;
+  max-width: 740px;
+  padding-right: 10px;
+  width: 100%;
+}
 /* ------ footer ------ */
 div.foot_main { 
   margin: 0; padding:0;

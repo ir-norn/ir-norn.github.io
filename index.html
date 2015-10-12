@@ -1,11 +1,10 @@
 ---
 layout: default
 ---
-
+ 
 <div class="posts" style="float:left">
-  {% for post in site.posts %}
+  {% for post in site.posts limit:5 offset:0 %}
     <article class="post">
-     
       <div class="data_title">
         <a href="{{ site.baseurl }}{{ post.url }}">{{ post.date | date: "%F" }} {{ post.title }}</a>
       </div>
