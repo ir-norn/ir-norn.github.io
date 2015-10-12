@@ -3,29 +3,19 @@ layout: default
 ---
 
 <article class="post">
-  <h1>{{ page.title }}</h1>
-
-  <div class="entry">
-    {{ content }}
+  <div style="float:left;">
+    <a href="{{ site.baseurl }}{{ page.url }}">{{ page.date | date: "%F" }} {{ page.title }}</a>
+  </div>
+  <div style="text-align:right;">
+      {% for cate in page.categories %}
+         {{ cate }}
+      {% endfor %}
   </div>
 
-  <div class="categorys">
-    Categorys [
-    {% for cate in page.categories %}
-      {{ cate }} ,
-    {% endfor %}
-    ]
-  </div>
-  <div class="tags">
-    Tags [
-    {% for tag in page.tags %}
-      {{ tag }} ,
-    {% endfor %}
-    ]
-  </div>
-
-  <div class="date">
-    Written on {{ page.date | date: "%F" }}
+  <div class="entry_border">
+    <div class="entry">
+      {{ content }}
+    </div>
   </div>
 
   {% include disqus.html %}
