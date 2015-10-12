@@ -3,7 +3,7 @@
 /**/
 /* thanks hedder img pekefw_ */
 /* variables */
-$site_width : 1000px;
+$site_width : 1100px;
 $shadow_link : #666 ;
 $contents_width : 740px;
 /* ------ init ------ */
@@ -22,7 +22,7 @@ a:active  { opacity : 0.3;  }
 div.head_main {
   margin:10 auto; padding: 0 auto;
   background: #FFF;
-  height: 360px;
+  height: 400px;
   .main {
   height : 60px;
     display:table;
@@ -96,6 +96,7 @@ div.menu {
 /* ------ header main ------ *//* ------ header contents ------ */
 div.head_main div.main div.contents {
    position:relative; top : 20px;
+   height:80%;
    img.hedder { width:$site_width; height:200px; }
 }
 /* ------ site contents ------ */
@@ -109,6 +110,8 @@ div.container {
   width: 100%;
 }
 /* ------ footer ------ */
+
+
 div.foot_main { 
   margin: 0; padding:0;
   height: 400px;  
@@ -143,24 +146,26 @@ div.foot_main2 {
     color: #555;
   }
 }
-/* entry var */
-$entory_padding : 10px;
+
 /* entry */
+
 div.entry_border {
   width :100%;
   display:table;
 }
 div.entry {
-  height:100px;
+  height:200px;
   width:  $contents_width ;
   background-color:#eee;
-  padding-left  : $entory_padding ;
-  padding-right : $entory_padding ;
+  padding-left  : 10px ;
+  padding-right : 10px ;
   display:table-cell;
+  display:table;
 
   vertical-align:top;
   font-family: Consolas , fantasy ;
 }
+
 /* posts */
 .posts > .post {
   padding-bottom: 2em;
@@ -173,21 +178,25 @@ div.entry {
 }
 .post {
   div.read-more {
-    position:relative; left: $entory_padding ;
+    text-transform: uppercase;
     font-size: 14px;
     text-align:right;
-    width : 100%;
+    display:table-cell;
+    vertical-align:bottom;
     a {
-      text-transform: uppercase;
       white-space: nowrap;
       background : #555;
     }
   }
 }
+
 /*  */
+
+
 div.data_title {
   float:left;
 }
+
 div.categories {
   text-align:right;
   a { color: $shadow_link; }

@@ -3,20 +3,28 @@ layout: default
 ---
 
 <article class="post">
-  <div style="float:left;">
+  <div class="data_title">
     <a href="{{ site.baseurl }}{{ page.url }}">{{ page.date | date: "%F" }} {{ page.title }}</a>
   </div>
-  <div style="text-align:right;">
-      {% for cate in page.categories %}
-         {{ cate }}
-      {% endfor %}
+  <div class="categories">
+    {% for cate in page.categories %}
+      <a href="{{ site.baseurl }}/archive#{{ cate }}">{{ cate }}</a>
+    {% endfor %}
   </div>
 
   <div class="entry_border">
     <div class="entry">
       {{ content }}
+    
     </div>
   </div>
-
+  
+  <div class="next">
+    next:<a href="{{ page.next.url }}">{{ page.next.title }}</a>
+  </div>
+  <div class="prev">
+    prev:<a href="{{ page.previous.url }}">{{ page.previous.title }}</a>
+  </div>
+  
   {% include disqus.html %}
 </article>

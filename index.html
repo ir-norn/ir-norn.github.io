@@ -2,7 +2,7 @@
 layout: default
 ---
  
-<div class="posts" style="float:left">
+<div class="posts">
   {% for post in site.posts limit:5 offset:0 %}
     <article class="post">
       <div class="data_title">
@@ -10,14 +10,14 @@ layout: default
       </div>
       <div class="categories">
       {% for cate in post.categories %}
-         {{ cate }}
+        <a href="{{ site.baseurl }}/archive#{{ cate }}">{{ cate }}</a>
       {% endfor %}
       </div>
 
       <div class="entry_border">
         <div class="entry">
-          {{ post.excerpt }}
-          <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">read more</a>
+          {{ post.excerpt }}<br>
+          <div class="read-more"><a href="{{ site.baseurl }}{{ post.url }}" class="read-more">read more</a></div>
         </div>
       </div>
     </article>
