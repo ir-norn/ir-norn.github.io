@@ -28,7 +28,7 @@ ul.bxslider img {
 }
 </style>
 <div style="width:400px;">
-<ul class="bxslider"">
+<ul class="bxslider">
   <li><img src="{{ site.baseurl }}/images/illust1.jpg"></li>
   <li><img src="{{ site.baseurl }}/images/illust2.jpg"></li>
   <li><img src="{{ site.baseurl }}/images/illust3.jpg"></li>
