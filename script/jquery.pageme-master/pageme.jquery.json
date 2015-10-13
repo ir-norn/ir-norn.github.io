@@ -1,0 +1,38 @@
+{
+    "name": "pageme",
+    "title": "jQuery PageMe",
+    "description": "jQuery plugin for auto paging.",
+    "keywords": [
+        "auto",
+        "paging",
+        "scroll",
+        "dynamic",
+        "fast",
+        "ajax",
+        "transition"
+    ],
+    "version": "1.0.4",
+    "author": {
+        "name": "Atec Media and Jens Eldering"
+    },
+    "maintainers": [
+        {
+            "name": "Jens Eldering",
+            "email": "jens@atecmedia.com",
+            "url": "http://www.atecmedia.com"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "CC BY-SA 3.0",
+            "url": "http://creativecommons.org/licenses/by-sa/3.0/"
+        }
+    ],
+    "bugs": "https://github.com/Scribilicious/jquery.pageme/issues",
+    "homepage": "https://github.com/Scribilicious/jquery.pageme",
+    "docs": "https://github.com/Scribilicious/jquery.pageme",
+    "download": "http://code.jquery.com/#pageme",
+    "dependencies": {
+        "jquery": ">=1.5"
+    }
+}

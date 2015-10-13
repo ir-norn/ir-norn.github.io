@@ -1,0 +1,198 @@
+<html><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title></title>
+  <link href="{{ site.baseurl }}/script/jquery.bxSlider/jquery.bxslider.css" rel="stylesheet"  type="text/css"  />
+  <link href="{{ site.baseurl }}/script/colorbox-master/colorbox.css" rel="stylesheet" type="text/css" />
+  <script src="{{ site.baseurl }}/script/jquery-2.1.4.min.js"></script>
+  <script src="{{ site.baseurl }}/script/jquery.bxSlider/jquery.bxSlider.min.js"></script>
+  <script src="{{ site.baseurl }}/script/colorbox-master/jquery.colorbox-min.js"></script>
+  <script src="{{ site.baseurl }}/script/jquery.pageme-master/js/jquery.pageme.min.js"></script>
+  <script src="{{ site.baseurl }}/script/lib/jquery-ias.min.js"></script>
+  <xscript src="{{ site.baseurl }}/script/lib/pointer.js"></script>
+  <script src="{{ site.baseurl }}/script/Wookmark-jQuery-master/wookmark.js"></script>
+  <script src="{{ site.baseurl }}/script/imagesloaded-master/imagesloaded.js"></script>
+  
+</head><body>
+<style><!-- 
+img{ height:300px; }
+--></style>
+xzzzzz9
+<style><!-- 
+#container 		{max-width:94%!important; margin:0 auto;}
+article			{margin:0 2.5%;text-align:center}
+
+#tiles {
+list-style-type: none;
+position: relative;
+margin:0 auto;
+}
+
+#tiles li {
+height:auto!important;
+min-height:265px;
+display:none;
+}
+
+#tiles li img {
+display: block;
+width:340px;
+height:auto;
+background:#fff;
+border:1px solid #ccc;
+padding:5px
+}
+ --></style>
+
+<div id="contents">
+    <ul id="tiles">
+  <li><img src="{{ site.baseurl }}/images/illust1.jpg"></li>
+  <li><img src="{{ site.baseurl }}/images/illust2.jpg"></li>
+  <li><img src="{{ site.baseurl }}/images/illust3.jpg"></li>
+  <li><img src="{{ site.baseurl }}/images/illust4.jpg"></li>
+  <li><img src="{{ site.baseurl }}/images/illust5.jpg"></li>
+  <li><img src="{{ site.baseurl }}/images/illust6.jpg"></li>
+    </ul>
+</div>
+
+
+
+<!-- 
+<script>
+$(document).ready(function() {
+  $(".content").pageme({
+    status     : '<div class="scrollLoad"></div>',
+    loading    : '-Loading...',
+    finished   : '-Finished...',
+    error      : '-Error loading...',
+    statusfade : 500,
+    statuspause: 1000,
+    container  : '.container',
+    next       : '.next',
+    navigation : '.navigate',
+    nextfade   : 500,
+    type       : 'html'
+  });  
+});
+</script>
+
+<style>
+.page {
+  height: 2000px;
+}
+</style>
+<div class="content">
+  <div class="page">
+    <h1>PageMe_</h1>
+  </div>
+  <div class="navigate">
+    <a class="next" href="{{ site.baseurl }}/index.html">Next</a>
+  </div>
+</div>
+ -->
+ 
+            <div class="navigate">
+                <a class="prev" href="index.html">Previous</a>
+                <a class="next" href="page2.html">Next</a>
+            </div>
+
+<hr>
+
+<style>body	{	xdisplay:none}</style>
+
+
+<script src="./jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+	$('body').fadeIn(1000);
+});
+</script>
+
+
+<hr>
+
+<script>
+$(document).ready(function(){
+	$(".inline").colorbox({
+		inline:true,
+		width:"50%"
+		});
+});
+</script>
+
+ -->
+
+
+<a href="#inline_content" class="inline" title="">inline_click</a>
+
+<div style='display:none'>
+    <div id='inline_content'>
+    <p><img src="img/0.jpg" alt="inline コンテンツ"></p>
+    inline コンテンツ</p>
+    </div>
+</div>
+
+
+<hr>
+
+<script>
+$(document).ready(function(){
+	$(".youtube").colorbox({
+		iframe:true,
+		innerWidth:425,
+		innerHeight:344
+	});
+});
+</script>
+
+<a href="https://www.youtube.com/watch?v=7LCyslzt3UU" class="youtube" title=""> youtube </a>
+
+<hr>
+
+
+<script>
+$(document).ready(function(){
+	$(".group4").colorbox({
+		rel:'group4',
+		slideshow:true
+	});
+});
+</script>
+
+<a href="img/0.jpg" class="group4" title=""> 
+<img src="img/0.jpg" alt="" /></a>
+<a href="img/1.jpg" class="group4" title=""> 
+<img src="img/1.jpg" alt="" /></a>
+<a href="img/2.jpg" class="group4" title=""> 
+<img src="img/2.jpg" alt="" /></a>
+<a href="img/3.jpg" class="group4" title=""> 
+<img src="img/3.jpg" alt="" /></a>
+
+
+
+<hr>
+
+
+<div style="width:400px;background:#eee;">
+<ul class="bxslider">
+  <li><img src="img/0.jpg"></li>
+  <li><img src="img/1.jpg"></li>
+  <li><img src="img/2.jpg"></li>
+  <li><img src="img/3.jpg"></li>
+  <li>text</li>
+</ul>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('.bxslider').bxSlider({
+    auto: true,
+    pause: 3500,
+    speed: 800,
+    mode: 'fade',
+    pager:true,
+  });
+});
+</script>
+
+
+</body></html>
