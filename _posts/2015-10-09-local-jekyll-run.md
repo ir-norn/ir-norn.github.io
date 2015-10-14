@@ -7,11 +7,11 @@ tags: [ github, jekyll ]
 ---
 
 
-### ローカル環境でJekyll動かすまでのまとめ。
+ローカル環境でJekyll動かすまでのまとめ。
 
 1. Ruby 入れる
 2. ruby-dk入れる
-3. gemsいろいろ
+3. gems
 - `gem install jekyll`
 - `gem install rouge`
 

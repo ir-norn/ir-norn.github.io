@@ -6,10 +6,11 @@
 @charset "utf-8";
 @import "reset";
 @import "variables";
+//@import "compass";
 // Syntax highlighting @import is at the bottom of this file
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
-@import "jekyll-now-default";
+//@import "jekyll-now-default";
 @import "highlights";
 @import "svg-icons";
 @import "ir-norn-style";

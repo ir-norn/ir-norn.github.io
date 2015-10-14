@@ -4,9 +4,7 @@ title: illust
 permalink: /illust/
 ---
 
-<!--
-x434
-<script type="text/javascript">$('#contents li').wookmark();</script>
+x434755
 <div id="contents">
     <ul id="tiles">
   <li><img src="{{ site.baseurl }}/images/illust1.jpg"></li>
@@ -17,6 +15,9 @@ x434
   <li><img src="{{ site.baseurl }}/images/illust6.jpg"></li>
     </ul>
 </div>
+
+<script type="text/javascript">$('#contents li').wookmark();</script>
+
 -->
 
 
