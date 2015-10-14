@@ -4,7 +4,7 @@ layout: default
 
 <article class="post">
   <div class="data_title">
-    <a href="{{ site.baseurl }}{{ page.url }}">{{ page.date | date: "%F" }} {{ page.title }}</a>
+    <a href="{{ page.url }}">{{ page.date | date: "%F" }} {{ page.title }}</a>
   </div>
   <div class="categories">
     {% for cate in page.categories %}
