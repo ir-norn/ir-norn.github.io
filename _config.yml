@@ -41,13 +41,13 @@ google_analytics: "UA-68496450-1"
 
 # Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
 # Used for Sitemap.xml and your RSS feed
-url: "http://ir-norn.github.io/"
+url: "http://ir-norn.github.io"
 
 # If you're hosting your site at a Project repository on GitHub pages
 # (http://yourusername.github.io/repository-name)
 # and NOT your User repository (http://yourusername.github.io)
 # then add in the baseurl here, like this: "/repository-name"
-baseurl: "/ir-norn.github.io/"
+baseurl: "/ir-norn.github.io"
 
 #
 # !! You don't need to change any of the configuration flags below !!
@@ -84,7 +84,7 @@ exclude:
 # --------------------------
 script:
     module1: true
-    module2: "ir-norn.github.io/"
+    module2: false
 #{% if site.script.module1 %}a{% endif %}
 #{% if site.script.module2 %}b{% endif %}
 
