@@ -28,7 +28,7 @@ tags: [ github, jekyll ]
 
 http://127.0.0.1:4000/
 
-[<img src="{{ site.baseurl }}/images/jekyll_install_seccess.jpg" width="700">]({{ site.baseurl }}/images/jekyll_install_seccess.jpg)
+[<img src="{{ site.baseurl }}images/jekyll_install_seccess.jpg" width="700">]({{ site.baseurl }}images/jekyll_install_seccess.jpg)
 
 こんなのが表示されればインストール成功
 
@@ -55,7 +55,7 @@ githubのjekyll-now 2015 10 09 時点での動作の為に必要っぽいもの
 
 capt
 
-[<img src="{{ site.baseurl }}/images/jkl_cap1.jpg" width="700">]({{ site.baseurl }}/images/jkl_cap1.jpg)
+[<img src="{{ site.baseurl }}images/jkl_cap1.jpg" width="700">]({{ site.baseurl }}images/jkl_cap1.jpg)
 
 {% highlight ruby %}
 #coding:utf-8
