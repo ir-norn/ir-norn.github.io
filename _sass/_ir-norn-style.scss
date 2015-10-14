@@ -26,16 +26,7 @@ body {
   width: 70px;
   height: 70px;
   margin-right: 15px;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
-
-  img {
-    border-radius: 5px;
-  }
+  img { border-radius: 10px; }
 }
 
 .site-info {
@@ -68,7 +59,6 @@ body {
   }
 }
 
-
 h1, h2, h3, h4, h5, h6 {
   font-family: $helveticaNeue;
   color: $darkerGray;
@@ -89,58 +79,19 @@ h1 {
     color: inherit;
   }
 }
-
-h2 {
-  font-size: 24px;
-}
-
-h3 {
-  font-size: 20px;
-}
-
-h4 {
-  font-size: 18px;
-  color: $gray;
-}
-
-p {
-  margin: 15px 0;
-}
-
-a {
-  color: $blue;
-  text-decoration: none;
-  cursor: pointer;
-  &:hover, &:active {
-    color: $blue;
-  }
-}
-
+h2 { font-size: 24px; }
+h3 { font-size: 20px; }
+h4 { font-size: 18px; color: $gray; }
+p { margin: 15px 0; }
 ul, ol {
   margin: 15px 0;
   padding-left: 30px;
 }
-
-ul {
-  list-style-type: disc;
-}
-
-ol {
-  list-style-type: decimal;
-}
-
-ol ul, ul ol, ul ul, ol ol {
-  margin: 0;
-}
-
-ul ul, ol ul {
-  list-style-type: circle;
-}
-img {
-  max-width: 100%;
-}
-
-
+ul { list-style-type: disc; }
+ol { list-style-type: decimal; }
+ol ul, ul ol, ul ul, ol ol { margin: 0; }
+ul ul, ol ul { list-style-type: circle; }
+img { max-width: 100%; }
 
 a { text-decoration: none; } 
 a         { color: #d997c9; }
@@ -151,10 +102,10 @@ a:active  { opacity : 0.3;  }
 /* ------ header main ------ */
 div.head_main {
   margin:10 auto; padding: 0 auto;
-  background: #FFF;
-  height: 360px;
+  background: #fff;
+  height: 400px;
+  padding-bottom:80px;
   .main {
-  height : 60px;
     display:table;
     margin: 0 auto; padding: 0 auto;
     width : $site_width;
@@ -190,44 +141,22 @@ div.head_main {
         } // li
       } // ul
     } // login
+
+    div.site_hedder {
+      clear : both;
+      xheight: 300px;
+      img.hedder { width : $site_width; height:250px; }
+      li {
+          clear : both;
+          padding : 20px;
+      }
+
+    }
   }//main
 }//head
+ul.bxslider { margin: 0; padding: 0; }
 
-/* ------ header main ------ *//* ------ menu ------ */
-div.menu { 
-  clear:both;
-  margin:0; padding:0;
-  position:relative; top:10px; 
-  height: 10%;  
-  font-size: 30;
-  text-align: left ;
-  a         { color: #4e3338;  }
-  a:hover   { opacity : 0.6;   }
-  a:active  { opacity : 0.3;   }
-  ul.left_nav {
-    margin:0; padding:0;
-    width:100%;
-    height:100%;
-    display:table;
-    table-layout: fixed;
-    li {
-      margin-left:30px;
-      xbackground: #dad2bc;
-      background: #fefbf4;
-      font-family: AR HERMANN;
-      font-size: 30px;
-      display:table-cell;
-      vertical-align:middle;
-      text-align:center;
-    }// li
-  }// ul
-}// menu
 /* Giddyup Std */
-/* ------ header main ------ *//* ------ header contents ------ */
-div.head_main div.main div.contents {
-   position:relative; top : 20px;
-   img.hedder { width:$site_width; height:250px; }
-}
 /* ------ site contents ------ */
 div.contents {
   width : $site_width ; margin: 0 auto; padding: 0 auto;
@@ -237,28 +166,6 @@ div.container {
   width: $contents_width;
   padding-right: 10px;
   width: 100%;
-}
-/* ------ footer ------ */
-div.foot_main { 
-  margin: 0; padding:0;
-  height: 400px;  
-  background: #d3c9ae;  
-  color: #f4e1d5;
-  a { color: #4e3338; } 
-  a:link    { color: #4e3338; }
-  a:visited { color: #4e3338; }
-  a:hover   { color: #4e3338; }
-  a:active  { opacity : 0.3;  }
-  li { list-style: none; }
-  div.footer_list {
-    float: left; 
-    margin:10;
-    width : 25%;
-    text-align : left ;
-    font-family: Consolas , fantasy ;
-    color: #FFF;
-    font-size:17;
-  }
 }
 /* ------ copy rights ------ */
 div.foot_main2 {
@@ -342,3 +249,16 @@ div.prev {
   text-align:right;
   a { color: $shadow_link; }
 }
+
+
+
+
+.bx-wrapper .bx-viewport {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border:none;
+  background-color:transparent;
+}
+
+  accordion.group { zoom: 1 }

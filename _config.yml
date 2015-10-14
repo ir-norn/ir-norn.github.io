@@ -54,7 +54,8 @@ baseurl: ""
 #
 
 markdown: redcarpet
-highlighter: pygments
+#highlighter: pygments
+highlighter: rouge
 #permalink: /:title/
 permalink: /blog/:categories/:title
 
