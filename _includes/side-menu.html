@@ -3,7 +3,7 @@
   <div id="accordion">
    <div class="group">
      <h3>profile</h3>
-     <div><img src="{{ site.baseurl }}/images/21963504.jpg"><br>
+     <div><img src="{{ site.baseurl }}images/21963504.jpg"><br>
          Auther : ir-norn</div>
    </div><div class="group">
      <h3>articles</h3>
@@ -32,7 +32,7 @@
 				  {% if month != nmonth %}
 				  <li style="list-style: none">
 				    {% capture yuyuko %}{{ post.date | date: '%Y-%m' }}{% endcapture %}
-				    <a href="{{ site.baseurl }}/archive#{{ yuyuko }}">
+				    <a href="{{ site.baseurl }}archive#{{ yuyuko }}">
 				    {{ post.date | date: '%Y-%m' }}..(<script>document.write( counter1.Num({{month}}) );</script>)</a>
 				  </li>
 				  {% endif %}
@@ -43,7 +43,7 @@
      <h3>category</h3>
      <div>
         <ul>{% for category in site.categories %}
-	         <li style="list-style: none"><a href="{{ site.baseurl }}/archive#{{ category | first }}">{{ category | first }}</a></li>
+	         <li style="list-style: none"><a href="{{ site.baseurl }}archive#{{ category | first }}">{{ category | first }}</a></li>
 	       {% endfor %}</ul>     
      </div>
    </div><div class="group">
