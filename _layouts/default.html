@@ -1,36 +1,52 @@
 <html><head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>{% if page.title %}{{ page.title }} ? {% endif %}{{ site.name }} ? {{ site.description }}</title>
-    {% include meta.html %}
-    <!--[if lt IE 9]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
-    <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
-   <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
-   <!-- jQuery -->
-   <script src="{{ site.baseurl }}/script/jquery-2.1.4.min.js" type="text/javascript"></script>
-   <script src="{{ site.baseurl }}/script/lib/jquery-ias.min.js"></script>
-   <script src="{{ site.baseurl }}/script/jquery.bxslider/jquery.bxslider.min.js"></script>
-   <link href="{{ site.baseurl }}/script/colorbox-master/colorbox.css" rel="stylesheet" type="text/css" />
-   <link href="{{ site.baseurl }}/script/jquery.bxslider/jquery.bxslider.css" rel="stylesheet"  type="text/css"  />
-   <script src="{{ site.baseurl }}/script/colorbox-master/jquery.colorbox-min.js"></script>
-   <script src="{{ site.baseurl }}/script/Wookmark-jQuery-master/wookmark.js"></script>
-   <!-- ir-norn coding script -->
-   <script src="{{ site.baseurl }}/script/pc_mobile.js"></script>
+  <title>{% if page.title %}{{ page.title }} ? {% endif %}{{ site.name }} ? {{ site.description }}</title>
+  {% include meta.html %}
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
+  <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+  <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  <!-- jQuery -->
+  <script src="{{ site.baseurl }}/script/jquery-2.1.4.min.js"></script>
+  <xscript src="{{ site.baseurl }}/script/lib/pointer.js"></script>
+  <!-- illust -->
+  <link href="{{ site.baseurl }}/script/jquery.bxSlider/jquery.bxslider.css" rel="stylesheet"  type="text/css"  />
+  <script src="{{ site.baseurl }}/script/jquery.bxSlider/jquery.bxSlider.min.js"></script>
+  <link href="{{ site.baseurl }}/script/colorbox-master/example2/colorbox.css" rel="stylesheet" type="text/css" />  
+  <script src="{{ site.baseurl }}/script/colorbox-master/jquery.colorbox-min.js"></script>
+  <!-- scroll -->
+  <script src="{{ site.baseurl }}/script/jquery.pageme-master/js/jquery.pageme.min.js"></script>
+  <script src="{{ site.baseurl }}/script/lib/jquery-ias.min.js"></script>
+  <!--  -->
+  <script src="{{ site.baseurl }}/script/Wookmark-jQuery-master/wookmark.js"></script>
+  <script src="{{ site.baseurl }}/script/imagesloaded-master/imagesloaded.js"></script>
+  <!-- side-menu.html tab -->
+  <link href="{{ site.baseurl }}/script/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet" type="text/css" >
+    <!-- le -->
+  <xlink href="{{ site.baseurl }}/script/jquery-ui-1.11.4.custom/lib/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" >
+  <!-- kuro  -->
+  <xlink href="{{ site.baseurl }}/script/jquery-ui-1.11.4.custom/lib/themes/black-tie/jquery-ui.css" rel="stylesheet" type="text/css" >
+  <xlink href="{{ site.baseurl }}/script/jquery-ui-1.11.4.custom/lib/themes/vader/jquery-ui.css" rel="stylesheet" type="text/css" >
+  <!-- cha -->
+  <xlink href="{{ site.baseurl }}/script/jquery-ui-1.11.4.custom/lib/themes/humanity/jquery-ui.css" rel="stylesheet" type="text/css" >
+  <!-- ao  -->
+  <link href="{{ site.baseurl }}/script/jquery-ui-1.11.4.custom/lib/themes/cupertino/jquery-ui.css" rel="stylesheet" type="text/css" >
+
+  <script src="{{ site.baseurl }}/script/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+  <!-- ir-norn coding script -->
+  <script src="{{ site.baseurl }}/script/pc_mobile.js"></script>
 </head><body>
 
-<sitehedder>
-  {% include hedder.html %}
-</sitehedder>
 
+{% include hedder.html %}
 <div class="contents">
-  <div class="container" style="float:left">
-    {{ content }}
+  <div class="container">
+    {% include tab-menu.html %}
   </div>
   {% include side-menu.html %}
 </div>
-{% include footer.html %}
  
 <div class="foot_main2">
   <div class="copyrights"> -Copyright (C) 2015 copyrights.ir-norn All Rights Reserved.- </div>

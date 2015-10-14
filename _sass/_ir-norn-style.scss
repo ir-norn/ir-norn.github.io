@@ -1,22 +1,24 @@
 /**/
 /*  2010 10 11  */
 /**/
-/* thanks hedder img pekefw_ */
 /* variables */
 $site_width : 1000px;
 $shadow_link : #666 ;
-$contents_width : 740px;
+$contents_width  : 740px;
+$side_menu_width : 220px;
 /* ------ init ------ */
 body {
   background: #fdfdfd;
   font-family: verdana,sans-serif,"comic sans ms";
   color: $shadow_link;
+  height: 100%;
+
 }
 .container {
-  margin: 0 auto;
+  margin: 0 auto;   padding: 0 10px;
   max-width: 740px;
-  padding: 0 10px;
   width: 100%;
+  float:left;
 }
 
 .site-avatar {
@@ -224,7 +226,7 @@ div.menu {
 /* ------ header main ------ *//* ------ header contents ------ */
 div.head_main div.main div.contents {
    position:relative; top : 20px;
-   img.hedder { width:$site_width; height:200px; }
+   img.hedder { width:$site_width; height:250px; }
 }
 /* ------ site contents ------ */
 div.contents {
@@ -275,31 +277,28 @@ div.foot_main2 {
 $entory_padding : 10px;
 /* entry */
 div.entry_border {
-  width :100%;
+  xheight: 100%;
+  xxclear:both;
+  xwidth : 100% ;
+  width : $contents_width - 2;
+  margin-left:-5;
   display:table;
 }
 div.entry {
-  height:100px;
-  width:  $contents_width ;
-  background-color:#eee;
-  padding-left  : $entory_padding ;
-  padding-right : $entory_padding ;
-  display:table-cell;
-
-  vertical-align:top;
+  width: 100% ;
   font-family: Consolas , fantasy ;
 }
 /* posts */
-.posts > .post {
+article.posts > article.post {
   padding-bottom: 2em;
   border-bottom: 1px solid $lightGray;
   float:left;
 }
-.posts > .post:last-child {
+article.posts > .post:last-child {
   padding-bottom: 1em;
   border-bottom: none;
 }
-.post {
+article.post {
   div.read-more {
     position:relative; left: $entory_padding ;
     font-size: 14px;
@@ -310,11 +309,25 @@ div.entry {
       white-space: nowrap;
       background : #555;
     }
+    a { text-decoration: none; } 
+    a         { color: #d997c9; }
+    a:link    { color: #d997c9; }
+    a:visited { color: #99ccea; }
+    a:hover   { opacity : 0.6;  }
+    a:active  { opacity : 0.3;  }
+  }
+  hr.post {
+    height: 5px;
+    border: 0;
+    box-shadow: inset 0 5px 5px -5px rgba(0,0,0,0.5);
+    xxopacity: 0.5;
   }
 }
 /*  */
 div.data_title {
+  font-size: 25px;
   float:left;
+  a { color:#62bbe9; }
 }
 div.categories {
   text-align:right;

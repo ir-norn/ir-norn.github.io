@@ -1,83 +1,87 @@
 
 
+<style>
+  /* IE has layout issues when sorting (see #5413) */
+  .group { zoom: 1 }
+</style>
+<script><!-- 
+  $(function() {
+    $( "#accordion" )
+      .accordion({
+        collapsible: true,
+        header: "> div > h3"
+      })
+      .sortable({
+        axis: "y",
+        handle: "h3",
+        stop: function( event, ui ) {
+          // IE doesn't register the blur when sorting
+          // so trigger focusout handlers to remove .ui-state-focus
+          ui.item.children( "h3" ).triggerHandler( "focusout" );
+ 
+          // Refresh accordion to handle new order
+          $( this ).accordion( "refresh" );
+        }
+      });
+  });
+
+$( "#datepicker" ).datepicker({ inline: true });
+--></script>
+
 
 <div style="float:left">
-<b>　</b>
-  <style> 
-    div.side_bar {
-      padding:5px;
-      margin-right: 0px;
-      margin-bottom: 20px;
-      background : #fdfdfd;
-      width:250px;
-      height: 100%px;
-      border: 1px solid #bbbbcc;
-      img { width:240px; }
-    }
-    div.side_bar_name {
-      background : #eee;
-      text-align:center;
-    }
-  </style>
-  <div class="side_bar">
-   <div class="side_bar_name">プロフィール</div>
-   <img src="{{ site.baseurl }}/images/21963504.jpg"><br>
-   Auther : ir-norn
+  <div id="accordion">
+   <div class="group">
+     <h3>profile</h3>
+     <div><img src="{{ site.baseurl }}/images/21963504.jpg"><br>
+         Auther : ir-norn</div>
+   </div><div class="group">
+     <h3>articles</h3>
+     <div>
+				<script type="text/javascript" language="javascript"><!-- 
+				var count = function(num) {
+				  hs = new Array();
+				  return {
+				    getNum: function( key ) {
+				      if( !hs[key] ){ hs[key] = 0; }  
+				      return hs[key]++;
+				    },
+				    Num: function(key) { return hs[key]; }
+				} };
+				var counter1 = count(0);
+				--></script>
+				<!-- /* moon count */ -->
+				{% for post in site.posts %}
+				  {% capture month %}{{ post.date | date: '%Y%m' }}{% endcapture %}
+				  <script>counter1.getNum({{month}})</script>
+				{% endfor %}
+				<ul>
+				{% for post in site.posts %}
+				  {% capture month %}{{ post.date | date: '%Y%m' }}{% endcapture %}
+				  {% capture nmonth %}{{ post.next.date | date: '%Y%m' }}{% endcapture %}
+				  {% if month != nmonth %}
+				  <li style="list-style: none">
+				    {% capture yuyuko %}{{ post.date | date: '%Y-%m' }}{% endcapture %}
+				    <a href="{{ site.baseurl }}/archive#{{ yuyuko }}">
+				    {{ post.date | date: '%Y-%m' }}..(<script>document.write( counter1.Num({{month}}) );</script>)</a>
+				  </li>
+				  {% endif %}
+				{% endfor %}
+				</ul>  
+     </div>
+   </div><div class="group">
+     <h3>category</h3>
+     <div>
+        <ul>{% for category in site.categories %}
+	         <li style="list-style: none"><a href="{{ site.baseurl }}/archive#{{ category | first }}">{{ category | first }}</a></li>
+	       {% endfor %}</ul>     
+     </div>
+   </div><div class="group">
+     <h3>Link</h3>
+     <div>_</div>
+   </div><div class="group">
+     <h3>/</h3>
+     <div>_</div>
+   </div>
   </div>
-
-  <div class="side_bar">
-   <div class="side_bar_name">カレンダー</div>   
-  </div>
-
-  <div class="side_bar">
-   <div class="side_bar_name">記事一覧</div> 
-			<script type="text/javascript" language="javascript"><!-- 
-			var count = function(num) {
-			  hs = new Array();
-			  return {
-			    getNum: function( key ) {
-			      if( !hs[key] ){ hs[key] = 0; }  
-			      return hs[key]++;
-			    },
-			    Num: function(key) { return hs[key]; }
-			} };
-			var counter1 = count(0);
-			--></script>
-			<!-- /* moon count */ -->
-			{% for post in site.posts %}
-			  {% capture month %}{{ post.date | date: '%Y%m' }}{% endcapture %}
-			  <script>counter1.getNum({{month}})</script>
-			{% endfor %}
-			
-			<ul>
-			{% for post in site.posts %}
-			  {% capture month %}{{ post.date | date: '%Y%m' }}{% endcapture %}
-			  {% capture nmonth %}{{ post.next.date | date: '%Y%m' }}{% endcapture %}
-			  {% if month != nmonth %}
-			  <li style="list-style: none">
-			    {% capture yuyuko %}{{ post.date | date: '%Y-%m' }}{% endcapture %}
-			    <a href="{{ site.baseurl }}/archive#{{ yuyuko }}">
-			    {{ post.date | date: '%Y-%m' }}..(<script>document.write( counter1.Num({{month}}) );</script>)</a>
-			  </li>
-			  {% endif %}
-			{% endfor %}
-			</ul>
-  </div>
-
-  <div class="side_bar">
-    <div class="side_bar_name">カテゴリ</div> 
-    <ul>
-      {% for category in site.categories %}
-        <li style="list-style: none"><a href="{{ site.baseurl }}/archive#{{ category | first }}">{{ category | first }}</a></li>
-      {% endfor %}
-    </ul>
-  </div>
-  
-  <div class="side_bar">
-    <div class="side_bar_name">/</div>   
-  </div>
-
-</div>
-
-
 </div>

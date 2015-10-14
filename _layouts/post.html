@@ -2,7 +2,6 @@
 layout: default
 ---
 
-
 <article class="post">
   <div class="data_title">
     <a href="{{ site.baseurl }}{{ page.url }}">{{ page.date | date: "%F" }} {{ page.title }}</a>
@@ -12,19 +11,14 @@ layout: default
       <a href="{{ site.baseurl }}/archive#{{ cate }}">{{ cate }}</a>
     {% endfor %}
   </div>
-
-  <div class="entry_border">
-    <div class="entry">
-      {{ content }}
-    </div>
-  </div>
-  
+  <div class="entry">{{ content }}</div>
   <div class="next">
-    next:<a href="{{ page.next.url }}">{{ page.next.title }}</a>
+    <!-- next:<a href="{{ page.next.url }}">{{ page.next.title }}</a>  -->
+    <a href="{{ page.next.url }}">next</a>
   </div>
   <div class="prev">
-    prev:<a href="{{ page.previous.url }}">{{ page.previous.title }}</a>
+    <!-- prev:<a href="{{ page.previous.url }}">{{ page.previous.title }}</a>  -->
+    <a href="{{ page.previous.url }}">prev</a>
   </div>
-  
   {% include disqus.html %}
 </article>

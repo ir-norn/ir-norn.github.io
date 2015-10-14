@@ -1,146 +1,83 @@
-<html><head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title></title>
-  <link href="script/jquery.bxSlider/jquery.bxslider.css" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="script/colorbox-master/colorbox.css" />
-  <script src="{{ site.baseurl }}/script/jquery-2.1.4.min.js"></script>
-  <script src="{{ site.baseurl }}/script/jquery.bxSlider/jquery.bxSlider.min.js"></script>
-  <script src="{{ site.baseurl }}/script/colorbox-master/jquery.colorbox-min.js"></script>
-  <script src="{{ site.baseurl }}/script/jquery.pageme-master/js/jquery.pageme.min.js"></script>
-  <script src="{{ site.baseurl }}/script/lib/jquery-ias.min.js"></script>
-  <xscript src="{{ site.baseurl }}/script/lib/pointer.js"></script>
-</head><body>
-<style><!-- 
-img{ height:300px; }
---></style>
 
 
-<script>
-$(document).ready(function() {
-    $(".content").pageme();
-});
-</script>
 
-<style>
-.page {
-  height: 2000px;
-}
-</style>
-<div class="content">
-  <div class="page">
-    <h1>PageMe_</h1>
+<div style="float:left">
+<b>縲</b>
+  <style> 
+    div.side_bar {
+      padding:5px;
+      margin-right: 0px;
+      margin-bottom: 20px;
+      background : #fdfdfd;
+      width:250px;
+      height: 100%px;
+      border: 1px solid #bbbbcc;
+      img { width:240px; }
+    }
+    div.side_bar_name {
+      background : #eee;
+      text-align:center;
+    }
+  </style>a
+  <div class="side_bar">
+   <div class="side_bar_name">繝励Ο繝輔ぅ繝ｼ繝ｫ</div>
+   <img src="{{ site.baseurl }}/images/21963504.jpg"><br>
+   Auther : ir-norn
   </div>
-  <div class="navigate">
-    <a class="next" href="{{ site.baseurl }}/index.html">Next</a>
+
+  <div class="side_bar">
+   <div class="side_bar_name">繧ｫ繝ｬ繝ｳ繝繝ｼ</div>   
   </div>
+
+  <div class="side_bar">
+   <div class="side_bar_name">險倅ｺ倶ｸ隕ｧ</div> 
+			<script type="text/javascript" language="javascript"><!-- 
+			var count = function(num) {
+			  hs = new Array();
+			  return {
+			    getNum: function( key ) {
+			      if( !hs[key] ){ hs[key] = 0; }  
+			      return hs[key]++;
+			    },
+			    Num: function(key) { return hs[key]; }
+			} };
+			var counter1 = count(0);
+			--></script>
+			<!-- /* moon count */ -->
+			{% for post in site.posts %}
+			  {% capture month %}{{ post.date | date: '%Y%m' }}{% endcapture %}
+			  <script>counter1.getNum({{month}})</script>
+			{% endfor %}
+			
+			<ul>
+			{% for post in site.posts %}
+			  {% capture month %}{{ post.date | date: '%Y%m' }}{% endcapture %}
+			  {% capture nmonth %}{{ post.next.date | date: '%Y%m' }}{% endcapture %}
+			  {% if month != nmonth %}
+			  <li style="list-style: none">
+			    {% capture yuyuko %}{{ post.date | date: '%Y-%m' }}{% endcapture %}
+			    <a href="{{ site.baseurl }}/archive#{{ yuyuko }}">
+			    {{ post.date | date: '%Y-%m' }}..(<script>document.write( counter1.Num({{month}}) );</script>)</a>
+			  </li>
+			  {% endif %}
+			{% endfor %}
+			</ul>
+  </div>
+
+  <div class="side_bar">
+    <div class="side_bar_name">繧ｫ繝・ざ繝ｪ</div> 
+    <ul>
+      {% for category in site.categories %}
+        <li style="list-style: none"><a href="{{ site.baseurl }}/archive#{{ category | first }}">{{ category | first }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  
+  <div class="side_bar">
+    <div class="side_bar_name">/</div>   
+  </div>
+
 </div>
 
-<!-- 
-            <div class="navigate">
-                <a class="prev" href="index.html">Previous</a>
-                <a class="next" href="page2.html">Next</a>
-            </div>
- -->
 
-<hr>
-
-<style><!--
-body	{
-	xdisplay:none
-}
---></style>
-
-
-<script src="./jquery.min.js"></script>
-<script>
-$(document).ready(function() {
-	$('body').fadeIn(1000);
-});
-</script>
-
-
-<hr>
-
-<script>
-$(document).ready(function(){
-	$(".inline").colorbox({
-		inline:true,
-		width:"50%"
-		});
-});
-</script>
-
-<a href="#inline_content" class="inline" title="">inline_click</a>
-
-<div style='display:none'>
-    <div id='inline_content'>
-    <p><img src="img/0.jpg" alt="inline 繧ｳ繝ｳ繝・Φ繝・></p>
-    inline 繧ｳ繝ｳ繝・Φ繝・/p>
-    </div>
 </div>
-
-
-<hr>
-
-<script>
-$(document).ready(function(){
-	$(".youtube").colorbox({
-		iframe:true,
-		innerWidth:425,
-		innerHeight:344
-	});
-});
-</script>
-
-<a href="https://www.youtube.com/watch?v=7LCyslzt3UU" class="youtube" title=""> youtube </a>
-
-<hr>
-
-
-<script>
-$(document).ready(function(){
-	$(".group4").colorbox({
-		rel:'group4',
-		slideshow:true
-	});
-});
-</script>
-
-<a href="img/0.jpg" class="group4" title=""> 
-<img src="img/0.jpg" alt="" /></a>
-<a href="img/1.jpg" class="group4" title=""> 
-<img src="img/1.jpg" alt="" /></a>
-<a href="img/2.jpg" class="group4" title=""> 
-<img src="img/2.jpg" alt="" /></a>
-<a href="img/3.jpg" class="group4" title=""> 
-<img src="img/3.jpg" alt="" /></a>
-
-
-
-<hr>
-
-
-<div style="width:400px;background:#eee;">
-<ul class="bxslider">
-  <li><img src="img/0.jpg"></li>
-  <li><img src="img/1.jpg"></li>
-  <li><img src="img/2.jpg"></li>
-  <li><img src="img/3.jpg"></li>
-  <li>text</li>
-</ul>
-</div>
-
-<script>
-$(document).ready(function(){
-  $('.bxslider').bxSlider({
-    auto: true,
-    pause: 3500,
-    speed: 800,
-    mode: 'fade',
-    pager:true,
-  });
-});
-</script>
-
-
-</body></html>
