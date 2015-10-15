@@ -1,14 +1,14 @@
 
 #accordion {
-        width: $side_menu_width ;
+  width: $side_menu_width ;
 	font: 82.5% "Trebuchet MS", sans-serif;
 	margin: 0px;
 	margin-left: 20px;
 }
 #tabs {
-	xwidth : 100% ;
+//	xwidth : 100% ;
 	width: $contents_width ;
-	xheight: 100%;
+	//min-height: 400px;
 	margin: 0 auto; padding: 0 auto;
 	margin-left: -13;
 }
