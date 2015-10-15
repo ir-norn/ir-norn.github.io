@@ -1,19 +1,20 @@
 
+<div class="side_main">
 <div style="float:left">
   <div id="accordion">
    <div class="group">
      <h3>profile</h3>
-     <div><img src="{{ site.baseurl }}images/21963504.jpg"><br>
+     <div><img class="avatar" src="{{ site.avatar }}"><br>
          Auther : ir-norn</div>
    </div><div class="group">
      <h3>articles</h3>
      <div>
-				<script type="text/javascript" language="javascript"><!-- 
+				<script type="text/javascript" language="javascript"><!--
 				var count = function(num) {
 				  hs = new Array();
 				  return {
 				    getNum: function( key ) {
-				      if( !hs[key] ){ hs[key] = 0; }  
+				      if( !hs[key] ){ hs[key] = 0; }
 				      return hs[key]++;
 				    },
 				    Num: function(key) { return hs[key]; }
@@ -37,14 +38,14 @@
 				  </li>
 				  {% endif %}
 				{% endfor %}
-				</ul>  
+				</ul>
      </div>
    </div><div class="group">
      <h3>category</h3>
      <div>
         <ul>{% for category in site.categories %}
 	         <li style="list-style: none"><a href="{{ site.baseurl }}archive#{{ category | first }}">{{ category | first }}</a></li>
-	       {% endfor %}</ul>     
+	       {% endfor %}</ul>
      </div>
    </div><div class="group">
      <h3>Link</h3>
@@ -54,4 +55,5 @@
      <div>_</div>
    </div>
   </div>
+</div>
 </div>

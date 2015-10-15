@@ -14,6 +14,9 @@ body {
   height: 100%;
 
 }
+.avatar {
+  width: 200px;
+}
 .container {
   margin: 0 auto;   padding: 0 10px;
   max-width: 740px;
@@ -21,13 +24,6 @@ body {
   float:left;
 }
 
-.site-avatar {
-  float: left;
-  width: 70px;
-  height: 70px;
-  margin-right: 15px;
-  img { border-radius: 10px; }
-}
 
 .site-info {
   float: left;
@@ -93,7 +89,7 @@ ol ul, ul ol, ul ul, ol ol { margin: 0; }
 ul ul, ol ul { list-style-type: circle; }
 img { max-width: 100%; }
 
-a { text-decoration: none; } 
+a { text-decoration: none; }
 a         { color: #d997c9; }
 a:link    { color: #d997c9; }
 a:visited { color: #99ccea; }
@@ -109,7 +105,7 @@ div.head_main {
     display:table;
     margin: 0 auto; padding: 0 auto;
     width : $site_width;
-    .title { 
+    .title {
       float: left;
       background: #f8faf5;
       height : 20% ;
@@ -127,7 +123,7 @@ div.head_main {
       } //name
       div.description { font-size: 12px; padding-left: 60px; }
     }//title
-    .login { 
+    .login {
       float: right;
       display:table;
       font-size: 14px;
@@ -171,7 +167,7 @@ div.container {
 div.foot_main2 {
   clear : both;
   margin: 0 auto;  padding:0 auto;
-  background: #eee;  
+  background: #eee;
   height: 20px;
   div.copyrights {
     height: 100%;
@@ -216,7 +212,7 @@ article.post {
       white-space: nowrap;
       background : #555;
     }
-    a { text-decoration: none; } 
+    a { text-decoration: none; }
     a         { color: #d997c9; }
     a:link    { color: #d997c9; }
     a:visited { color: #99ccea; }
