@@ -8,10 +8,10 @@ $(document).ready(function(){
     speed: 800,
     mode: 'fade',
     pager:true,
-  }); 
+  });
 });
 
-// tab menu 
+// tab menu
 //      show: { opacity: 'toggle', duration: 'normal', }
 //      show: { effect:"fade", duration: 100 }
   $(function() {
@@ -31,7 +31,7 @@ $(document).ready(function(){
         //Examples of how to assign the Colorbox event to elements
         $(".group1").colorbox({rel:'group1'});
         $(".group2").colorbox({rel:'group2', transition:"fade"});
-        $(".group3").colorbox({rel:'group3', transition:"none", width:"75%", height:"75%"});
+        $(".blog_2015_10_13").colorbox({rel:'blog_2015_10_13', transition:"fade", width:"75%", height:"75%"});
         $(".group4").colorbox({rel:'group4', slideshow:true});
         $(".ajax").colorbox();
         $(".youtube").colorbox({iframe:true, innerWidth:640, innerHeight:390});
@@ -48,9 +48,9 @@ $(document).ready(function(){
 
         $('.non-retina').colorbox({rel:'group5', transition:'none'})
         $('.retina').colorbox({rel:'group5', transition:'none', retinaImage:true, retinaUrl:true});
-        
+
         //Example of preserving a JavaScript event for inline calls.
-        $("#click").click(function(){ 
+        $("#click").click(function(){
           $('#click').css({"background-color":"#f00", "color":"#fff", "cursor":"inherit"}).text("Open this window again and this message will still be here.");
           return false;
         });
@@ -70,7 +70,7 @@ $(document).ready(function(){
           // IE doesn't register the blur when sorting
           // so trigger focusout handlers to remove .ui-state-focus
           ui.item.children( "h3" ).triggerHandler( "focusout" );
- 
+
           // Refresh accordion to handle new order
           $( this ).accordion( "refresh" );
         }
