@@ -57,8 +57,8 @@ baseurl: "/"
 markdown: redcarpet
 highlighter: pygments
 #highlighter: rouge
-permalink: /:title/
-#permalink: /blog/:categories/:title
+#permalink: /:title/
+permalink: /blog/:categories/:title
 
 
 # The release of Jekyll Now that you're using
