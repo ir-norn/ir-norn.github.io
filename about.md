@@ -15,6 +15,5 @@ This page has been created by jekyll
 
 ### Contact me
 <div class="footer_list">
-<ul><li>{% include svg-icons.html %}
-</li></ul></div>
- 
+<ul><li style="list-style:none;">{% include svg-icons.html %}</li></ul>
+</div>
