@@ -4,3 +4,26 @@ task :default => [:test]
 task :test do
   system"echo abc"
 end
+
+task :ruby, [*:a1..:a9] do |t, args|
+  puts c = "C:\\ruby223_64\\bin\\ruby #{args.map do |k,v| v end.join(' ')}"
+  system"#{c}"
+end
+
+task :jekyll, [*:a1..:a9] do |t, args|
+  puts c = "C:\\ruby223_64\\bin\\jekyll #{args.map do |k,v| v end.join(' ')}"
+  system"#{c}"
+end
+
+
+task :commit do
+  system 'git add *'
+  system 'git commit * -m \"commit\"'
+end
+
+task :commit_push do
+  system 'git add *'
+  system 'git commit * -m \"commit\"'
+  system 'git push'
+end
+
