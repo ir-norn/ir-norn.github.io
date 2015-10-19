@@ -27,3 +27,6 @@ task :commit_push do
   system 'git push'
 end
 
+task :push do
+  system 'git push'
+end
