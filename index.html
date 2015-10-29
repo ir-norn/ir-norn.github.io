@@ -2,7 +2,7 @@
 layout: default
 ---
 
-{% for page in site.posts limit:5 offset:0 %}
+{% for page in site.posts limit:2 offset:0 %}
 <article class="post">
   <div class="data_title">
     <a href="{{ page.url }}">{{ page.date | date: "%F" }} {{ page.title }}</a>
