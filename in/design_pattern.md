@@ -1,7 +1,7 @@
 ---
 layout: page
 title: task
-permalink: /in/desgn_pattern/
+permalink: /in/design_pattern/
 ---
 
 
