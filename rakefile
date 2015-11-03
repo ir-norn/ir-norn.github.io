@@ -2,10 +2,29 @@
 task :default => [:test]
 
 task :test do
-  system"echo abc"
+  p :test_t
 end
 
-task :ruby, [*:a1..:a9] do |t, args|
+
+
+task :post, [:title] do |t, args|
+title = args[:title]
+layout = <<-TTT
+---
+layout: post
+title: #{title}
+tags: [ github, jekyll ]
+categories: [ default ]
+---
+\n\n\n\n
+TTT
+  file = "./_posts/" + Time.now.strftime("%F") + "-" + title + ".md"
+  open( file , "w").print layout
+  system"atom #{file}"
+end
+
+task :ruby223, [*:a1..:a9] do |t, args|
+
   puts c = "C:\\ruby223_64\\bin\\ruby #{args.map do |k,v| v end.join(' ')}"
   system"#{c}"
 end
