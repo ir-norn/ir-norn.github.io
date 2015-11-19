@@ -14,12 +14,12 @@
 	                color: #fff;
 	            }
 	        </style>
-	        <div id="name">初音ミク</div>
+	        <div id="name">初音ミク_</div>
 	    </import>
 	    <txr id="txr3" html="#name" />
 	    <mtl id="mtl3" type="Sprite" param="map: #txr3;" />
 	    
-		<rdr frame="body" camera="camera:first" param="antialias: true; clearColor: #000;" />
+		<rdr frame="miku" camera="camera:first" param="antialias: true; clearColor: #000;" />
 	</head>
 	<body>
 		<scene>
