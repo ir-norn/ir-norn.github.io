@@ -1,0 +1,84 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title></title>
+    <style>
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+    ul.example {
+    	margin: 0;
+    	padding: 0;
+    	list-style-type: none;
+    }
+    ul.example li.ex {
+    	float: left;
+    	width: 8em;
+    	margin-right: 5px;
+    	padding: 2px;
+    	border: 1px #ccbbdd solid;
+    	background-color: #444;
+    	color:#eee;
+    	text-align: center;
+    }
+    </style>
+
+		<link type="text/css" rel="stylesheet" href="{{ site.baseurl }}script/jQuery.mmenu-master/demo/css/demo.css" />
+		<link type="text/css" rel="stylesheet" href="{{ site.baseurl }}script/jQuery.mmenu-master/dist/css/jquery.mmenu.all.css" />
+
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.0.js"></script>
+		<script type="text/javascript" src="{{ site.baseurl }}script/jQuery.mmenu-master/dist/js/jquery.mmenu.all.min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$('nav#menu').mmenu();
+			});
+		</script>
+	</head>
+	<body>
+		<div id="page">
+			<div class="header">
+				<a href="#menu"></a>
+				index
+			</div>
+			{{ content }}
+			<nav id="menu">
+				<ul>
+					<li><a href="../dxruby/">Home</a></li>
+					<li><a href="../init/">はじめに</a></li>
+					<li><a href="../install/">インストール</a></li>
+					<li><a href="../kiso/">rubyの基礎</a></li>
+					<li><a href="../draw/">画像表示</a></li>
+					<li><a href="../move">動かす</a></li>
+					<li><a href="../task/">タスクシステム</a></li>
+					<li><a href="../sprite/">Spriteクラス</a>
+						<ul>
+							<li><a href="../sprite_task">汎用タスク</a></li>
+							<li><a href="../sprite_hit">当たり判定</a></li>
+						</ul>
+					</li>
+          <li><a href="../game/">ゲーム</a>
+					<li><a href="#contact">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+
+<!-- footter -->
+<!--
+<div style="background:#333;width:100%;height:400px"><dd><br>
+  <ul class="example">
+    <li class="ex"><ul class="example">
+      <li>test</li>
+      <li>test</li>
+    </ul></li>
+    <li class="ex"><ul class="example">
+      <li>xxxx</li>
+      <li>xxxx</li>
+      <li>xxxx</li>
+      <li>xxxx</li>
+    </ul></li>
+  </ul>
+</dd></div>
+-->
+
+</body>
+</html>
