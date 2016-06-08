@@ -1,0 +1,22 @@
+ul.example {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+ul.example li.ex {
+  float: left;
+  width: 8em;
+  margin-right: 5px;
+  padding: 2px;
+  border: 1px #ccbbdd solid;
+  background-color: #444;
+  color:#eee;
+  text-align: center;
+}
+body {
+  color: #bb99aa
+}
+a:link { color: #8c9bd7; }
+a:visited { color: #8c9bd7; }
+a:hover { color: #8c9bd7; }
+a:active { color: #042337; }

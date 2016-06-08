@@ -1,7 +1,7 @@
 ---
 layout: dxruby
-title: dxruby
-permalink: /in/dxruby/
+title: dxruby_top
+permalink: /in/dxruby/dxruby_top/
 ---
 
 ## home

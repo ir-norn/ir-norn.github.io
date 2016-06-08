@@ -1,7 +1,7 @@
 ---
 layout: dxruby
 title: init
-permalink: /in/init/
+permalink: /in/dxruby/init/
 ---
 
 ## はじめに
