@@ -3,30 +3,33 @@ layout: sns
 title: upload
 permalink: /in/sns/upload.cgi
 ---
+print <<-"TEXT"
+<pre>
+    <form method="POST" enctype="multipart/form-data" action="up.cgi">
+    file <input type="FILE" name="file">
+    key
+    <input type="" name="key" value="" size="16">
+    タイトル
+    <input name="title" size="36">
+    キャプション
+    <textarea name="caption" cols="100" rows="10"></textarea>
+    タグ
+    <input name="tag" size="36">
+    年齢制限
+    公開制限
 
-print <<-TEXT
-<form method="POST" enctype="multipart/form-data" action="up.cgi">
-  file <input type="FILE" name="file">
-<input type="submit" value="upload">
-</form>
-
+    <input type="submit" value="upload">
+    </form>
+</pre>
 TEXT
 
-print <<-CGITEXT
-<pre>
 
-タイトル
-
-キャプション
-
-タグ
-
-年齢制限
-
-後悔制限
-
-
-[ 投稿する ]
-
-</pre>
-CGITEXT
+# require "yaml"
+# folder = "up"
+# id = "12345"
+# yaml = YAML.load_file("#{folder}/#{id}/conf.yaml")
+# p yaml
+#
+# p conf = YAML.load_file("conf.yaml")
+# conf["file_count"] += 1
+# YAML.dump( conf , open('conf.yaml', 'w') )
