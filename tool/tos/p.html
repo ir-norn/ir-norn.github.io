@@ -35,6 +35,7 @@
       var search_equip = document.forms.search_form1.search_equip.checked;
       var search_recipe = document.forms.search_form1.search_recipe.checked;
       var search_monster = document.forms.search_form1.search_monster.checked;
+      var radio_select = 0;
            if (search_all     == true) { search_type = ""; }
       else if (search_equip   == true) { search_type = "var_table equip";   }
       else if (search_item    == true) { search_type = "var_table item";    }
@@ -47,11 +48,15 @@
     var reg2 = new RegExp(search_type);
 
     $(function(){
+      limit = 0;  // 表示数リミット
       var tosken_echo_db = function(r) {
+        limit+=1; if(limit>256){return true;}
         $('#result').append( r["src"] );
       }
       $('#result').empty();
+//      tosken_db({id:"100001"}).each( function(r) { tosken_echo_db(r); });
       tosken_db({id:arg2_id}).each( function(r) { tosken_echo_db(r); });
+      limit = 0;
       tosken_db({src:{regex:reg1}},{src:{regex:reg2}}).each( function(r) { tosken_echo_db(r); });
       // tosken_db({src:{regex:/"ハルガル"/}}).each( function(r) { tosken_echo_db(r); });
     });
