@@ -1,32 +1,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>tosドロップサーチ - ぅぅぃ</title>
-	<meta name="Keywords" content="Tree of Savior, TOS, ドロップ情報">
-	<link rel="stylesheet" type="text/css" href="general.css">
-
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.js"></script>
-  <script type="text/javascript" src="./data_json.js"></script>
+	<meta name="Keywords" content="Tree of Savior, TOS, ドロップ情報, ぅぅぃ">
+	<link rel="stylesheet" type="text/css" href="./general.css">
+  <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.0.js"></script>
   <script type="text/javascript" src="./taffydb-master/taffy.js"></script>
-
+  <script type="text/javascript" src="./data_json.js"></script>
   <script type="text/javascript" language="javascript">
-  var tosken_db = TAFFY( data_js_json() );  // DATA_LOAD
-  // ACTION
-  // arg1 | recipe item equip monster ,, arg2 | id
+  var tosken_db = TAFFY( data_js_json() ); // DATA LOAD
+// ACTION
   function onButtonClick_test(){
-//    var target = document.getElementById("output");
-//    target.innerText = '';
     $('#output').append('<img src=./i.jpg>');
+    document.form1.keyword.focus();
     onButtonClick();
   }
+// arg1 | recipe item equip monster ,, arg2 | id
   function onButtonClick( arg1 , arg2 ) {
     var arg1_name = arg1;
     var arg2_id   = arg2 + "";
-
-    //  submitの代わり
+// enter key
     $( '#keyword' ).keypress( function ( e ) {
     	if ( e.which == 13 ) {
         $('#output').empty();
         onButtonClick();
-    		return false;
+        return false;
     	}
     });
 // Radio
@@ -35,37 +31,28 @@
       var search_equip = document.forms.search_form1.search_equip.checked;
       var search_recipe = document.forms.search_form1.search_recipe.checked;
       var search_monster = document.forms.search_form1.search_monster.checked;
-      var radio_select = 0;
            if (search_all     == true) { search_type = ""; }
       else if (search_equip   == true) { search_type = "var_table equip";   }
       else if (search_item    == true) { search_type = "var_table item";    }
       else if (search_recipe  == true) { search_type = "var_table recipe";  }
       else if (search_monster == true) { search_type = "var_table monster"; }
-// --- end
+// reg
     var keyword = document.forms.search_form1.keyword.value;
     if(keyword == false){ keyword = "nil"; }
     var reg1 = new RegExp(keyword);
     var reg2 = new RegExp(search_type);
-
+// search echo
     $(function(){
-      limit = 0;  // 表示数リミット
-      var tosken_echo_db = function(r) {
-        limit+=1; if(limit>256){return true;}
-        $('#result').append( r["src"] );
-      }
+      var tosken_echo_db = function(r) { $('#result').append( r["src"] ); }
       $('#result').empty();
-//      tosken_db({id:"100001"}).each( function(r) { tosken_echo_db(r); });
       tosken_db({id:arg2_id}).each( function(r) { tosken_echo_db(r); });
-      limit = 0;
-      tosken_db({src:{regex:reg1}},{src:{regex:reg2}}).each( function(r) { tosken_echo_db(r); });
-      // tosken_db({src:{regex:/"ハルガル"/}}).each( function(r) { tosken_echo_db(r); });
+      tosken_db({src:{regex:reg1}},{src:{regex:reg2}}).limit(255).each( function(r) { tosken_echo_db(r); });
     });
-  } // onButton_Func
+  } // onButtonClick
   </script>
 </head>
 <body onLoad="onButtonClick_test()">
-<vbody>
-　　<span id="search_detail" style="color:gray;">※　tosken itemsearchをjsで書き直して一部だけ使えるようにしたものです。</span>
+　　<span id="search_detail" style="color:gray;">※　tosken itemsearchをjsで書き直して一部だけ使えるようにしたものです。重い時はリロードを。</span>
   <p><a href="#">TOP</a> キーワードはアイテム名と種類、特殊効果AND,OR区切り2ワードまで検索。日韓、英(一部)ワード対応。検索文字列は40字まで。</p>
   <p style="clear:both"></p>
   <p>例：「ブレスレットORネックレス」「ルクソナANDクロース」「手袋[クロース]」「スキル」「ジェム 」</p>
