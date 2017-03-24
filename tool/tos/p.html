@@ -1,0 +1,99 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>tosドロップサーチ - ぅぅぃ</title>
+	<meta name="Keywords" content="Tree of Savior, TOS, ドロップ情報">
+	<link rel="stylesheet" type="text/css" href="general.css">
+
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.js"></script>
+  <script type="text/javascript" src="./data_json.js"></script>
+  <script type="text/javascript" src="./taffydb-master/taffy.js"></script>
+
+  <script type="text/javascript" language="javascript">
+  var tosken_db = TAFFY( data_js_json() );  // DATA_LOAD
+  // ACTION
+  // arg1 | recipe item equip monster ,, arg2 | id
+  function onButtonClick_test(){
+//    var target = document.getElementById("output");
+//    target.innerText = '';
+    $('#output').append('<img src=./i.jpg>');
+    onButtonClick();
+  }
+  function onButtonClick( arg1 , arg2 ) {
+    var arg1_name = arg1;
+    var arg2_id   = arg2 + "";
+
+    //  submitの代わり
+    $( '#keyword' ).keypress( function ( e ) {
+    	if ( e.which == 13 ) {
+        $('#output').empty();
+        onButtonClick();
+    		return false;
+    	}
+    });
+// Radio
+      var search_all   = document.forms.search_form1.search_all.checked;
+      var search_item  = document.forms.search_form1.search_item.checked;
+      var search_equip = document.forms.search_form1.search_equip.checked;
+      var search_recipe = document.forms.search_form1.search_recipe.checked;
+      var search_monster = document.forms.search_form1.search_monster.checked;
+           if (search_all     == true) { search_type = ""; }
+      else if (search_equip   == true) { search_type = "var_table equip";   }
+      else if (search_item    == true) { search_type = "var_table item";    }
+      else if (search_recipe  == true) { search_type = "var_table recipe";  }
+      else if (search_monster == true) { search_type = "var_table monster"; }
+// --- end
+    var keyword = document.forms.search_form1.keyword.value;
+    if(keyword == false){ keyword = "nil"; }
+    var reg1 = new RegExp(keyword);
+    var reg2 = new RegExp(search_type);
+
+    $(function(){
+      var tosken_echo_db = function(r) {
+        $('#result').append( r["src"] );
+      }
+      $('#result').empty();
+      tosken_db({id:arg2_id}).each( function(r) { tosken_echo_db(r); });
+      tosken_db({src:{regex:reg1}},{src:{regex:reg2}}).each( function(r) { tosken_echo_db(r); });
+      // tosken_db({src:{regex:/"ハルガル"/}}).each( function(r) { tosken_echo_db(r); });
+    });
+  } // onButton_Func
+  </script>
+</head>
+<body onLoad="onButtonClick_test()">
+<vbody>
+　　<span id="search_detail" style="color:gray;">※　tosken itemsearchをjsで書き直して一部だけ使えるようにしたものです。</span>
+  <p><a href="#">TOP</a> キーワードはアイテム名と種類、特殊効果AND,OR区切り2ワードまで検索。日韓、英(一部)ワード対応。検索文字列は40字まで。</p>
+  <p style="clear:both"></p>
+  <p>例：「ブレスレットORネックレス」「ルクソナANDクロース」「手袋[クロース]」「スキル」「ジェム 」</p>
+
+  <form name="form1" id="search_form1" action="">
+  <p><!--装備検索条件-->
+  <input type="button" value="送信" onclick="onButtonClick();" /> <a href="#">全件表示</a>
+  キーワード:	<input id="keyword" type="text" name="kensaku" value="" />
+  <span class="frame">
+  <label><input id="search_all"     class='auto_submit disable_all' type='radio' name='CAT' value='' checked='checked'  />ALL </label>
+  <label><input id="search_equip"   class='auto_submit enable_1' type='radio' name='CAT' value='1' /><span class='equip'>装備</span></label>
+  <label><input id="search_item"    class='auto_submit enable_2' type='radio' name='CAT' value='2' /><span class='item'>アイテム</span></label>
+  <label><input id="search_recipe"  class='auto_submit enable_3' type='radio' name='CAT' value='3' /><span class='recipe'>製造書</span></label>
+  <label><input id="search_monster" class='auto_submit enable_4' type='radio' name='CAT' value='4' /><span class='monster'>モンスター</span></label>
+  </span>
+  </form>
+
+  <br>
+  <span id="search_detail" style="color:gray;">
+  キーワード横の「装備」「モンスター」を選択すると詳細検索ができます。
+  </span>
+
+	<div><ul class="pager"><li ><a href="#"> << </a></li>
+   <li ><a href="#"><span style="color:#FF4DC4;">01</span></a></li>
+   <li ><a href="#">02</a></li>
+   <li ><a href="#">03</a></li>
+   <li ><a href="#">04</a></li>
+   <li ><a href="#">05</a></li>
+   <li ><a href="#"> >> </a></li>
+  </ul>7974件のデータ(ページ1/1994) <span>キーワードは:<span style='color:darkgreen;font-weight:bold;'></span>,<span style='color:darkgreen;font-weight:bold;'></span></span>
+  </div>
+<hr>
+  <div id="result"></div>
+  <div id="output"></div>
+
+</body></html>
