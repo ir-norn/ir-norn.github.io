@@ -11,20 +11,20 @@
   function onButtonClick_test(){
     $('#output').append('<img src=./i.jpg>');
     document.form1.keyword.focus();
+    // enter key
+    $( '#keyword' ).keypress( function ( e ) {
+      if ( e.which == 13 ) {
+        $('#output').empty();
+        onButtonClick();
+        return false;
+      }
+    });
     onButtonClick();
   }
 // arg1 | recipe item equip monster ,, arg2 | id
   function onButtonClick( arg1 , arg2 ) {
-    var arg1_name = arg1;
+    var arg1_name = arg1;  // 未使用
     var arg2_id   = arg2 + "";
-// enter key
-    $( '#keyword' ).keypress( function ( e ) {
-    	if ( e.which == 13 ) {
-        $('#output').empty();
-        onButtonClick();
-        return false;
-    	}
-    });
 // Radio
       var search_all   = document.forms.search_form1.search_all.checked;
       var search_item  = document.forms.search_form1.search_item.checked;
