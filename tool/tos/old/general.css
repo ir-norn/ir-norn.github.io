@@ -1,0 +1,193 @@
+body {
+	font-family:"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,Osaka,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+}
+
+p {
+	margin: 0px 0px;
+}
+ul.pager {
+font-size:0.8em;
+margin: 5px;
+/*padding:1em;
+float:left;
+position: relative;
+left: 50%;*/
+position: relative;
+/*float:left;*/
+width:95%;
+}
+ul.pager li {
+float: left;
+margin-right: 5px;
+border: 1px #3366FF solid;
+font-weight: bold;
+list-style-type:none;
+}
+ul.pager li.prev,
+ul.pager li.next {
+border: none;
+}
+ul.pager li a {
+position: relative;
+display: block;
+padding: 3px 3px;
+color: #3366FF;
+}
+ul.pager li a:link,
+ul.pager li a:visited {
+text-decoration: none;
+}
+ul.pager li a:hover,
+ul.pager li a:active {
+background-color: #AADDFF;
+text-decoration: none;
+}
+ul.pager li em {
+display: block;
+padding: 3px 8px;
+background: #3366FF;
+color: #FFFFFF;
+}
+
+ul.toplist li{
+	margin-top:10px;
+}
+ul.toplist li ul li{
+	margin-top:1px;
+	margin-bottom:1px;
+}
+tr:nth-child(even) {
+    background:#fcfcfc;
+}
+tr:nth-child(odd) {
+    background:#faffee;
+}
+
+table.equip tr:nth-child(even) {
+    background:#fcfcfc;
+}
+table.equip tr:nth-child(odd), span.equip{
+    background:#faffee;
+}
+table.item tr:nth-child(even) {
+    background:#fcfcfc;
+}
+table.item tr:nth-child(odd), span.item{
+    background:#fff6e9;
+}
+
+table.recipe tr:nth-child(even) {
+    background:#fcfcfc;
+}
+table.recipe tr:nth-child(odd), span.recipe{
+    background:#f7eaff;
+}
+
+table.monster tr:nth-child(even) {
+    background:#fcfcfc;
+}
+table.monster tr:nth-child(odd), span.monster{
+    background:#f4f5fc;
+}
+
+.var_table {
+margin-top:5px;
+width: 98%; /*テーブルの横幅 */
+border-collapse: collapse; /* 枠線の表示方法 */
+border: 2px #9d9d9d solid; /* テーブル全体の枠線（太さ・色・スタイル） */
+}
+
+.var_table_tablelist {
+margin-top:5px;
+border-collapse: collapse; /* 枠線の表示方法 */
+border: 1px #ededed solid; /* テーブル全体の枠線（太さ・色・スタイル） */
+}
+
+.var_table_tablelist TD {
+border: 1px #ededed solid; /* セルの枠線（太さ・色・スタイル） */
+padding: 2px 5px 2px 5px;
+}
+
+.var_table TD {
+border: 1px #d6d6d6 solid; /* セルの枠線（太さ・色・スタイル） */
+padding: 2px 5px 2px 5px;
+}
+
+.ItemGrade1{
+	color : #333;
+}
+.ItemGrade2{
+	color : #59d2ee;
+}
+.ItemGrade3{
+	color : #954c8f;
+	font-weight: bold;
+}
+.ItemGrade4{
+	color : #e35b3e;
+	font-weight: bold;
+}
+
+.ItemGradebg1{
+	float:left;
+	width:80px;height:50px;
+	background-size:contain;
+	background-image: url(./gfx/coomon_bg.png);
+}
+.ItemGradebg2{
+	float:left;
+	width:80px;height:50px;
+	background-size:contain;
+	background-image: url(./gfx/magic_bg.png);
+}
+.ItemGradebg3{
+	float:left;
+	width:80px;height:50px;
+	background-size:contain;
+	background-image: url(./gfx/rare_bg.png);
+}
+.ItemGradebg4{
+	float:left;
+	width:80px;height:50px;
+	background-size:contain;
+	background-image: url(./gfx/legend_bg.png);
+}
+
+.awaking{
+	font-weight: bold;
+}
+
+.smaller{
+	font-size:small;
+}
+.smaller-more{
+	font-size:0.7em;
+}
+
+
+
+
+
+/*Tooltip CSS*/
+
+.toolTip{ position: relative; }
+.toolTip span{
+	display: block;
+	border: solid 2px #999;
+	background-color: #efefef;
+	color: #333;
+	text-decoration: none;
+	position: absolute;
+	top: 30px;
+	left: -100px;
+	padding: 5px;
+	visibility: hidden;
+	min-width: 200px;
+	max-width: 400px;
+}
+a.toolTip:hover,a.toolTip:hover span{
+	visibility: visible;
+	z-index: 100;
+}
+
+}
