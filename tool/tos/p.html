@@ -3,6 +3,8 @@
 	<meta name="Keywords" content="Tree of Savior, TOS, ドロップ情報, ぅぅぃ">
 	<link rel="stylesheet" type="text/css" href="./general.css">
   <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.0.js"></script>
+  <link type="text/css" rel="stylesheet" href="simplePagination/simplePagination.css"/>
+  <script type="text/javascript" src="simplePagination/jquery.simplePagination.js"></script>
   <script type="text/javascript" src="./taffydb-master/taffy.js"></script>
   <script type="text/javascript" src="./data_json.js"></script>
   <script type="text/javascript" language="javascript">
@@ -14,7 +16,6 @@
     // enter key
     $( '#keyword' ).keypress( function ( e ) {
       if ( e.which == 13 ) {
-        $('#output').empty();
         onButtonClick();
         return false;
       }
@@ -33,6 +34,14 @@
   }
 // arg1 | recipe item equip monster ,, arg2 | id
   function onButtonClick( arg1 , arg2 ) {
+    $('#output').empty();
+    //　新しく検索されたらページSeekを1に戻す
+    if(arg1 == null){
+　　    $(function() {
+  　　      $(".pagination").pagination('selectPage', 1);
+　　    });
+    }
+
     var arg1_name = arg1;  // 未使用
     var arg2_id   = arg2 + "";
 // Radio
@@ -48,15 +57,50 @@
       else if (search_monster == true) { search_type = "var_table monster"; }
 // reg
     var keyword = document.forms.search_form1.keyword.value;
-    if(keyword == false){ keyword = "nil"; }
+    if(keyword == false){ keyword = ".*"; }
     var reg1 = new RegExp(keyword);
     var reg2 = new RegExp(search_type);
 // search echo
+    var vn    = 0;
+    var view  = 12;
+    var pages = [ "","","","","","", "","","","","","",  "","","","","","", "","","","","","",
+                  "","","","","","", "","","","","","",  "","","","","","", "","","","","","",
+                  "","","","","","", "","","","","","",  "","","","","","", "","","","","","",
+                  "","","","","","", "","","","","","",  "","","","","","", "","","","","","",
+                  "","","","","","", "","","","","","",  "","","","","","", "","","","","","",
+                  "","","","","","", "","","","","","",  "","","","","","", "","","","","","",
+                  "","","","","","", "","","","","","",  "","","","","","", "","","","","","",
+                  "","","","","","", "","","","","","",  "","","","","","", "","","","","","",
+                  "","","","","","", "","","","","","",  "","","","","","", "","","","","","",
+                  "","","","","","", "","","","","","",  "","","","","","", "","","","","","",
+                  "","","","","","","",];
+
     $(function(){
-      var tosken_echo_db = function(r) { $('#result').append( r["src"] ); }
+      var tosken_echo_db2 = function(r) { $('#more-result').append( r["src"] ); }
+      var tosken_echo_db = function(r) {
+        pages[ 1+Math.floor(vn / view) ] += r["src"] ;
+        vn += 1;
+      }
+
+      for(var i = 1;i < pages.length+1 ; i++ ){
+         $('#page-'+i).empty();
+      }
       $('#result').empty();
-      tosken_db({id:arg2_id}).each( function(r) { tosken_echo_db(r); });
-      tosken_db({src:{regex:reg1}},{src:{regex:reg2}}).limit(255).each( function(r) { tosken_echo_db(r); });
+      $('#page-result').empty();
+      $('#more-result').empty();
+
+      // ページ数の更新
+      $(function() {
+          $(".pagination").pagination('updateItems',  1+Math.floor(vn / view) );
+      });
+//
+      tosken_db({id:arg2_id}).each( function(r) { tosken_echo_db2(r); });
+      tosken_db({src:{regex:reg1}},{src:{regex:reg2}}).limit(1024).each( function(r) { tosken_echo_db(r); });
+
+      for(var i = 1;i < pages.length+1 ; i++ ){
+         $('#page-'+i).append( pages[i] );
+      }
+      $('#page-result').append( `${vn} results` );
     });
   } // onButtonClick
   function onChange_func( arg ){
@@ -66,24 +110,40 @@
     }else if(arg == 'equip'){
       obj = document.equip.linkselect;
     }
-
     index = obj.selectedIndex;
     if (index != 0){
       document.forms.search_form1.keyword.value = obj.options[index].value;
       obj.selectedIndex = 0;
     }
   }
+// --------------------------
+  $(function(){
+      $(".pagination").pagination({
+          items: 8,
+//           displayedPages: 1,
+          cssStyle: 'light-theme',
+          onPageClick: function( n ){
+              showPage( n );
+         }
+      })
+  });
+  function showPage( n ){
+      $('#more-result').empty();  // ページ切り替わったら more　消す
+      var page="#page-" + n;
+      $('.selection').hide();
+      $(page).show();
+  }
   </script>
+
 </head>
 <body onLoad="onButtonClick_test()">
-　　<span id="search_detail" style="color:gray;">※　tosken itemsearchをjsで書き直して一部だけ使えるようにしたものです。重い時は<a href="javascript:window.location.reload();">リロード</a>を。</span>
-  <p><a href="index.html" target="_blank">TOP</a> キーワードはアイテム名と種類、特殊効果AND,OR区切り2ワードまで検索。日韓、英(一部)ワード対応。検索文字列は40字まで。</p>
-  <p style="clear:both"></p>
-  <p>例：「ブレスレットORネックレス」「ルクソナANDクロース」「手袋[クロース]」「スキル」「ジェム 」</p>
-
-  <form name="form1" id="search_form1" action="">
-  <p><!--装備検索条件-->
-  <input type="button" value="送信" onclick="onButtonClick();" /> <a href="#">全件表示</a>
+<span id="search_detail" style="color:gray;"><a href="index.html" target="_blank">TOP</a>　ブラウザによって動かない場合は<a href="./old/p_old1.html" target="_blank">旧データ版</a>のほうを使用してください。
+<p>今のところ検索結果を最大で1000件程度まで表示します。</p>
+URLの後ろに「?page=アイテムID」で１件のみのデータを表示できます。例：「<a href="p.html?page=58005" target="_blank">p.html?page=58005</a>」
+</span>
+<form name="form1" id="search_form1" action="">
+  <!-- <input type="button" value="検索" onclick="onButtonClick();"  style="background: #EEE; border: 1px solid #DDD; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; color: #111; width: 60px; padding: 10px 0;" /> -->
+  <input type="button" value="検索" onclick="onButtonClick();" />
   キーワード:	<input id="keyword" size="28" type="text" name="kensaku" value="" />
   <span class="frame">
   <label><input id="search_all"     class='auto_submit disable_all' type='radio' name='CAT' value='' checked='checked'  />ALL </label>
@@ -92,7 +152,7 @@
   <label><input id="search_recipe"  class='auto_submit enable_3' type='radio' name='CAT' value='3' /><span class='recipe'>製造書</span></label>
   <label><input id="search_monster" class='auto_submit enable_4' type='radio' name='CAT' value='4' /><span class='monster'>モンスター</span></label>
   </span>
-  </form>
+</form>
 
 <style>
 <!--
@@ -127,20 +187,31 @@ ul.foo li {
   </li></ul>
 
   <span id="search_detail" style="color:gray;">
-  キーワード横の「装備」「モンスター」を選択すると詳細検索ができます。
+    <span id="page-result"></span>
   </span>
 
-	<div><ul class="pager"><li ><a href="#"> << </a></li>
-   <li ><a href="#"><span style="color:#FF4DC4;">01</span></a></li>
-   <li ><a href="#">02</a></li>
-   <li ><a href="#">03</a></li>
-   <li ><a href="#">04</a></li>
-   <li ><a href="#">05</a></li>
-   <li ><a href="#"> >> </a></li>
-  </ul>7974件のデータ(ページ1/1994) <span>キーワードは:<span style='color:darkgreen;font-weight:bold;'></span>,<span style='color:darkgreen;font-weight:bold;'></span></span>
-  </div>
-<hr>
-  <div id="result"></div>
-  <div id="output"></div>
+  <hr>
 
+  <style><!--
+  .selection {display: none;}
+  #page-1 { display: block;}
+  -->
+  </style>
+
+  <div class="pagination-holder clearfix">
+    <div id="light-pagination" class="pagination"></div>
+  </div>
+  <div id="more-result"></div>
+  <div class="selection" id="page-1"></div>
+  <div class="selection" id="page-2"></div>
+  <div class="selection" id="page-3"></div>
+  <div class="selection" id="page-4"></div>
+  <div class="selection" id="page-5"></div>
+  <div class="selection" id="page-6"></div>
+  <div class="selection" id="page-7"></div>
+  <div class="selection" id="page-8"></div>
+  <div class="selection" id="page-9"></div>
+  <div class="selection" id="page-10"></div><div class="selection" id="page-11"></div><div class="selection" id="page-12"></div><div class="selection" id="page-13"></div><div class="selection" id="page-14"></div><div class="selection" id="page-15"></div><div class="selection" id="page-16"></div><div class="selection" id="page-17"></div><div class="selection" id="page-18"></div><div class="selection" id="page-19"></div><div class="selection" id="page-20"></div><div class="selection" id="page-21"></div><div class="selection" id="page-22"></div><div class="selection" id="page-23"></div><div class="selection" id="page-24"></div><div class="selection" id="page-25"></div><div class="selection" id="page-26"></div><div class="selection" id="page-27"></div><div class="selection" id="page-28"></div><div class="selection" id="page-29"></div><div class="selection" id="page-30"></div><div class="selection" id="page-31"></div><div class="selection" id="page-32"></div><div class="selection" id="page-33"></div><div class="selection" id="page-34"></div><div class="selection" id="page-35"></div><div class="selection" id="page-36"></div><div class="selection" id="page-37"></div><div class="selection" id="page-38"></div><div class="selection" id="page-39"></div><div class="selection" id="page-40"></div><div class="selection" id="page-41"></div><div class="selection" id="page-42"></div><div class="selection" id="page-43"></div><div class="selection" id="page-44"></div><div class="selection" id="page-45"></div><div class="selection" id="page-46"></div><div class="selection" id="page-47"></div><div class="selection" id="page-48"></div><div class="selection" id="page-49"></div><div class="selection" id="page-50"></div><div class="selection" id="page-51"></div><div class="selection" id="page-52"></div><div class="selection" id="page-53"></div><div class="selection" id="page-54"></div><div class="selection" id="page-55"></div><div class="selection" id="page-56"></div><div class="selection" id="page-57"></div><div class="selection" id="page-58"></div><div class="selection" id="page-59"></div><div class="selection" id="page-60"></div><div class="selection" id="page-61"></div><div class="selection" id="page-62"></div><div class="selection" id="page-63"></div><div class="selection" id="page-64"></div><div class="selection" id="page-65"></div><div class="selection" id="page-66"></div><div class="selection" id="page-67"></div><div class="selection" id="page-68"></div><div class="selection" id="page-69"></div><div class="selection" id="page-70"></div><div class="selection" id="page-71"></div><div class="selection" id="page-72"></div><div class="selection" id="page-73"></div><div class="selection" id="page-74"></div><div class="selection" id="page-75"></div><div class="selection" id="page-76"></div><div class="selection" id="page-77"></div><div class="selection" id="page-78"></div><div class="selection" id="page-79"></div><div class="selection" id="page-80"></div><div class="selection" id="page-81"></div><div class="selection" id="page-82"></div><div class="selection" id="page-83"></div><div class="selection" id="page-84"></div><div class="selection" id="page-85"></div><div class="selection" id="page-86"></div><div class="selection" id="page-87"></div><div class="selection" id="page-88"></div><div class="selection" id="page-89"></div><div class="selection" id="page-90"></div><div class="selection" id="page-91"></div><div class="selection" id="page-92"></div><div class="selection" id="page-93"></div><div class="selection" id="page-94"></div><div class="selection" id="page-95"></div><div class="selection" id="page-96"></div><div class="selection" id="page-97"></div><div class="selection" id="page-98"></div><div class="selection" id="page-99"></div><div class="selection" id="page-100"></div>
+
+  <div id="output"></div>
 </body></html>
