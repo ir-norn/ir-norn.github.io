@@ -11,6 +11,24 @@
   <script type="text/javascript" src="./data_json.js"></script>
   <script type="text/javascript" language="javascript">
   var tosken_db = TAFFY( data_js_json() ); // DATA LOAD
+// フック
+function mess(e){var o=e?e.target:event.srcElement;//if(o.tagName=='A')
+  var x = event.srcElement.onclick + "";
+  x.match(/.*?(\d+).*?/);
+  var tmp = RegExp.$1 + "";
+  if(o.innerHTML == "詳細(材料)"){
+     document.forms.search_form1.search_recipe.checked = true;
+     document.forms.search_form1.keyword.value = RegExp.$1 + "[^0-9]";
+  }
+  if(o.innerHTML == "製作物を見る/詳細(材料)"){
+    onButtonClick( "製作物を見る/詳細(材料)" , RegExp.$1 );
+  }
+  if(o.innerHTML == "製造書あり"){ }
+  if(o.innerHTML == "単体表示"){
+    document.forms.search_form1.search_monster.checked = true;
+    document.forms.search_form1.keyword.value = RegExp.$1 + "[^0-9]";
+  }
+}
 // ACTION
   function onButtonClick_test(){
     // $('#output').append('<img src=./i.jpg>');
@@ -28,6 +46,8 @@
         return false;
       }
     });
+
+    document.body.onclick = mess;
     location_page_id();
   }
   // URLに渡された引き数の読み取り
@@ -150,6 +170,15 @@
       }
       $('#page-result').append( `${vn} results` );
     });
+// 元HTMLのリンクが間違ってるのでの上書きを行う
+    if(arg1 == "製作物を見る/詳細(材料)"){
+      var test_more = [];
+      tosken_db({id:arg2_id}).each( function(r) { test_more.unshift(r); });
+      test_more[0]["src"].match(/[equip|itemID]ID:<span class="selectedClass">(\d+)<\/span>/);
+      arg2_id = RegExp.$1;
+      $('#more-result').empty();
+      tosken_db({id:arg2_id}).each( function(r) { tosken_echo_db2(r); });
+    }
   } // onButtonClick
   //
   // セレクトタグのマップ装備 入力支援
