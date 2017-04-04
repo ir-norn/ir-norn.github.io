@@ -11,15 +11,20 @@
   <script type="text/javascript" src="./data_json.js"></script>
   <script type="text/javascript" language="javascript">
   var tosken_db = TAFFY( data_js_json() ); // DATA LOAD
-// フック
-function mess(e){var o=e?e.target:event.srcElement;//if(o.tagName=='A')
-  var x = event.srcElement.onclick + "";
+//
+// フック ,,, a href onclickに入れた情報を無視して別の動作させる
+function mess(e){
+  if(!e){ e = event; }
+  var o=e?e.target:e.srcElement;//if(o.tagName=='A')
+  var x = e.srcElement.onclick + "";
   x.match(/.*?(\d+).*?/);
   var tmp = RegExp.$1 + "";
+// onButtonClick側で参照される keyword.value の値の更新タイミングが不明
   if(o.innerHTML == "詳細(材料)"){
      document.forms.search_form1.search_recipe.checked = true;
      document.forms.search_form1.keyword.value = RegExp.$1 + "[^0-9]";
   }
+// 2重にonButtonClick処理する事になったけど、こっちのmessのほうが呼び出し遅いらしくて一応動いた
   if(o.innerHTML == "製作物を見る/詳細(材料)"){
     onButtonClick( "製作物を見る/詳細(材料)" , RegExp.$1 );
   }
@@ -31,13 +36,12 @@ function mess(e){var o=e?e.target:event.srcElement;//if(o.tagName=='A')
 }
 // ACTION
   function onButtonClick_test(){
-    // $('#output').append('<img src=./i.jpg>');
     // $('#page-1').append('<img src=./i/i' + (Math.floor(Math.random()*3)+1) +  '.jpg>');
     $('#page-1').append('<img src=./i/i1.jpg>');
     $('#page-2').append('<img src=./i/i2.jpg>');
     $('#page-3').append('<img src=./i/i3.jpg>');
-    // $('#page-4').append('<img src=./i/i4.jpg>');
-    // $('#page-5').append('<img src=./i/i5.jpg>');
+//    $('#page-4').append('<img src=./i/i4.jpg>');
+//    $('#page-5').append('<img src=./i/i5.jpg>');
     document.form1.keyword.focus();
     // enter key
     $( '#keyword' ).keypress( function ( e ) {
@@ -46,8 +50,7 @@ function mess(e){var o=e?e.target:event.srcElement;//if(o.tagName=='A')
         return false;
       }
     });
-
-    document.body.onclick = mess;
+    document.body.onclick = mess; // イベントフック用
     location_page_id();
   }
   // URLに渡された引き数の読み取り
@@ -224,6 +227,9 @@ function mess(e){var o=e?e.target:event.srcElement;//if(o.tagName=='A')
   </script>
 </head>
 <body onLoad="onButtonClick_test()">
+<a href="http://ir-norn.github.io/tool/tos/p.html">
+    <img src="https://ga-beacon.appspot.com/UA-68496450-2/ir-norn.github.io/tool/tos/p.html?pixel"/>
+</a>
 <span id="search_detail" style="color:gray;"><a href="index.html" target="_blank">TOP</a>　　Tosのアイテムサーチです。
 <p>jQuery3.2.0が動作するブラウザで見てください。動作環境：Chrome 〇 firefox 〇 IE × でした。</p>
 URLの後ろに「?page=アイテムID」で１件のみのデータを表示できます。「<a href="p.html?page=58005" target="_blank">p.html?page=58005</a>」
@@ -262,7 +268,7 @@ ul.foo li {
     <form name="equip">
     <select name="linkselect" onChange="onChange_func('equip')">
     <option value="">装備LV</option>
-    <option value="装備LV 330">装備LV 330</option><option value="装備LV 315">装備LV 315</option><option value="装備LV 270">装備LV 270</option><option value="装備LV 220">装備LV 220</option><option value="装備LV 170">装備LV 170</option><option value="装備LV 120">装備LV 120</option><option value="装備LV 75">装備LV 75</option><option value="装備LV 40">装備LV 40</option><option value="装備LV 15">装備LV 15</option><option value="装備LV 1[^0-9]">装備LV 1</option>
+    <option value="装備LV[:| ]330">装備LV 330</option><option value="装備LV[:| ]315">装備LV 315</option><option value="装備LV[:| ]270">装備LV 270</option><option value="装備LV[:| ]220">装備LV 220</option><option value="装備LV[:| ]170">装備LV 170</option><option value="装備LV[:| ]120">装備LV 120</option><option value="装備LV[:| ]75">装備LV 75</option><option value="装備LV[:| ]40">装備LV 40</option><option value="装備LV[:| ]15">装備LV 15</option><option value="装備LV[:| ]1[^0-9]">装備LV 1</option>
     </select>
     </form>
 </li><li>
@@ -304,7 +310,6 @@ ul.foo li {
     <form name="equipments">
     <select name="linkselect" onChange="onChange_func('equipments')">
       <option value="">装備</option>
-      <!-- <option value="">靴</option><option value="">手袋</option><option value="">下半身</option><option value="">盾</option><option value="">上半身</option><option value="">アームバンド</option><option value="">短剣</option><option value="">チャーム</option><option value="">コスチューム</option><option value="">ヘアコスチューム</option><option value="">ネックレス</option><option value="">ブレスレット</option><option value="">弩</option><option value="">キャノン</option><option value="">クロスボウ</option><option value="">マスケット</option><option value="">拳銃</option><option value="">ダガー</option><option value="">鈍器</option><option value="">レイピア</option><option value="">片手槍</option><option value="">片手剣</option><option value="">両手槍</option><option value="">両手剣</option><option value="">ロッド</option><option value="">スタッフ</option> -->
       <option value="">靴</option><option value="">手袋</option><option value="">下半身</option>
       <option value="">盾</option><option value="">上半身</option><option value="">アームバンド</option>
       <option value="">短剣</option><option value="">チャーム</option><option value="">コスチューム</option>
