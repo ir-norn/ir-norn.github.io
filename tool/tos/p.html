@@ -21,7 +21,8 @@ function mess(e){
   var tmp = RegExp.$1 + "";
 // onButtonClick側で参照される keyword.value の値の更新タイミングが不明
   if(o.innerHTML == "詳細(材料)"){
-     document.forms.search_form1.search_recipe.checked = true;
+    //  document.forms.search_form1.search_recipe.checked = true;
+     document.forms.search_form1.search_all.checked = true;
      document.forms.search_form1.keyword.value = RegExp.$1 + "[^0-9]";
      reset2();
      if($('select').find('option:selected').hasClass('not-select')) {
