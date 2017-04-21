@@ -153,6 +153,14 @@ padding: 2px 5px 2px 5px;
 	background-image: url(./gfx/legend_bg.png);
 }
 
+.ItemGradebg5{
+	float:left;
+	width:80px;height:50px;
+	background-size:contain;
+	background-image: url(./gfx/legend_bg2.png);
+}
+
+
 .awaking{
 	font-weight: bold;
 }
