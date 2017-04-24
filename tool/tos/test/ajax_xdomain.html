@@ -1,0 +1,63 @@
+<html><head><meta charset="UTF-8">
+	<title></title>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.0.js"></script>
+	<script type="text/javascript" src="./jquery.xdomainajax.js"></script>
+  <script type="text/javascript" src="./taffydb-master/taffy.js"></script>
+  <script type="text/javascript" src="./tostrans_json_ver2.js"></script>
+<script type="text/javascript">
+  var tostrans = TAFFY( tostrans_json() ); // DATA LOAD
+  var ary_en = [] ;
+  var ary_kr = [] ;
+  var ary_ja = [] ;
+  tostrans().each( function(r) {
+    ary_en.unshift(r["en"]);
+    ary_kr.unshift(r["kr"]);
+    ary_ja.unshift(r["ja"]);
+  });
+  $(function() {
+    $('#button01').click(function() {
+    var url = document.forms.form1.keyword.value;
+    $.ajax({
+      url: url,
+      // url: 'https://tos.neet.tv/items/254107',
+      // url: 'https://tos-ktest.neet.tv/items/254107',
+      // url: 'https://tos-kr.neet.tv/items/254107',
+      // url: 'http://www.tosbase.com/database/monsters/57863/',
+      type: 'GET',
+      success: function(data) {
+        src = data.responseText;
+        found = src.match(/>(.*?)</g)
+        for(var b=0;b<found.length;b++){
+          if( found[b].length == 2 ){ continue; }
+          for(var i = 0; i < ary_en.length; i++) {
+            if( (found[b] == ">"+ary_en[i]+"<") || ( found[b] == ">"+ary_kr[i]+"<" ) ){
+              src = src.replace( found[b] , ">"+ary_ja[i]+"<" );
+              break;
+            }
+          }
+        }
+        $('#container').html(src);
+      }
+    });
+   });
+  });
+</script>
+</head>
+<body>
+<style>
+div.right {
+  width: 500px; background: #eee; margin-left: auto;
+}
+</style>
+<div class="right">
+  tos neet 翻訳表示テスト<br>
+  入力例: https://tos.neet.tv/items/314103<br>
+  <form name="form1" id="form1" action="">
+    <input type="text" id="keyword" size="48" type="text">
+    <input type="button" value="取得" id="button01">
+  </form>
+</div>
+<hr>
+<div id="container"></div>
+
+</body></html>
