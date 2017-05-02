@@ -1,0 +1,447 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>tosドロップサーチ - ぅぅぃ</title>
+	<meta name="Keywords" content="Tree of Savior, TOS, ドロップ情報, ぅぅぃ">
+	<link rel="stylesheet" type="text/css" href="./general.css">
+  <link type="text/css" rel="stylesheet" href="./radio.css">
+  <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.0.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="simplePagination/simplePagination.css"/>
+  <script type="text/javascript" src="simplePagination/jquery.simplePagination.js"></script>
+  <script type="text/javascript" src="./taffydb-master/taffy.js"></script>
+  <script type="text/javascript" src="./data_json_ktest_04_21.js"></script>
+  <script type="text/javascript" src="./data_json_add.js"></script>
+
+  <script type="text/javascript">
+  // var tosken_db = TAFFY( data_js_json() ); // DATA LOAD
+  var tosken_db = TAFFY( data_js_json().concat(data_js_json_add()) ); // DATA LOAD
+//
+// いくつかのリンクだけ別の処理
+function mess(e){
+  var o=e?e.target:e.srcElement;//if(o.tagName=='A')
+  var x = o.onclick + "";
+  x.match(/.*?(\d+).*?/);
+  var tmp = RegExp.$1 + "";
+  if(o.innerHTML == "詳細(材料)"){
+     document.forms.search_form1.search_all.checked = true;
+     document.forms.search_form1.keyword.value = RegExp.$1 + "[^0-9]";
+     reset2();
+  }
+// リンククリック → onButtonClick() → mess() value更新 → クリック → onButtonClick() 更新されたvalueで表示
+  if(o.innerHTML == "製作物を見る/詳細(材料)"){
+    onButtonClick( "製作物を見る/詳細(材料)" , RegExp.$1 );
+  }
+  if(o.innerHTML == "製造書あり"){ }
+  if(o.innerHTML == "単体表示"){
+    document.forms.search_form1.search_monster.checked = true;
+    document.forms.search_form1.keyword.value = RegExp.$1 + "[^0-9]";
+    reset2();
+  }
+}
+// ACTION
+  function onButtonClick_test(){
+    $('#page-1').append('<img src=./i/k_test.jpg>');
+    document.form1.keyword.focus();
+    // enter key
+    $( '#keyword' ).keypress( function ( e ) {
+      if ( e.which == 13 ) {
+        onButtonClick();
+        return false;
+      }
+    });
+    document.body.onclick = mess; // イベントフック用
+    location_page_id();
+  }
+  // URLに渡された引き数の読み取り
+  function location_page_id(){
+    try{
+      document.forms.search_form1.keyword.value = "ID.*?>" +
+        location.href.match(/page=[0-9]+/g)[0].slice(5) + "[^0-9]";
+      $('#output').empty();
+      onButtonClick();
+     }
+    catch(e){  }
+  }
+// arg1 | recipe item equip monster ,, arg2 | id
+  function onButtonClick( arg1 , arg2 ) {
+    $('#output').empty();
+    //　新しく検索されたらページSeekを1に戻す
+    if(arg1 == null){
+　　    $(function() {
+  　　      $(".pagination").pagination('selectPage', 1);
+　　    });
+    }
+
+    var arg1_name = arg1;  // 未使用
+    var arg2_id   = arg2 + "";
+// Radio
+      var search_type = "";
+      var search_all   = document.forms.search_form1.search_all.checked;
+      var search_item  = document.forms.search_form1.search_item.checked;
+      var search_equip = document.forms.search_form1.search_equip.checked;
+      var search_recipe = document.forms.search_form1.search_recipe.checked;
+      var search_monster = document.forms.search_form1.search_monster.checked;
+           if (search_all     == true) { search_type = ""; }
+      else if (search_equip   == true) { search_type = "var_table equip";   }
+      else if (search_item    == true) { search_type = "var_table item";    }
+      else if (search_recipe  == true) { search_type = "var_table recipe";  }
+      else if (search_monster == true) { search_type = "var_table monster"; }
+// reg
+    // var keyword = cmd_parse( document.forms.search_form1.keyword.value );
+    var keyword = document.forms.search_form1.keyword.value;
+    if(keyword == false){ keyword = ".*"; }
+    var reg1 = new RegExp(keyword);
+    var reg2 = new RegExp(search_type);
+// search echo
+    var vn    = 0;
+    var view  = 12;
+// 配列 [""...] 700
+    var pages = Array.apply(null, Array(700)).map(function () {return "" });
+    var p_list = [] ;
+    //
+    $(function(){
+      var tosken_echo_db2 = function(r) { $('#more-result').append( r["src"] ); }
+      var tosken_echo_db = function(r) {
+        p_list.unshift( r );
+      }
+
+      for(var i = 1;i < pages.length+1 ; i++ ){
+         $('#page-'+i).empty();
+      }
+      $('#result').empty();
+      $('#page-result').empty();
+      $('#more-result').empty();
+
+      // ページ数の更新
+      $(function() {
+          $(".pagination").pagination('updateItems',  1+Math.floor(vn / view) );
+      });
+// p_listへ　add
+      tosken_db({id:arg2_id}).each( function(r) { tosken_echo_db2(r); });
+      // tosken_db({src:{regex:reg1}},{src:{regex:reg2}}).limit(1024).each( function(r) { tosken_echo_db(r); });
+      tosken_db({src:{regex:reg1}},{src:{regex:reg2}}).each( function(r) { tosken_echo_db(r); });
+
+      // セレクトタグに従って、必要なものだけ抽出 ------------------
+      function selected_find( ary , index ){
+//        alert(p_list.length);
+        p_list.some(function(v, i){
+            if( v["src"].match( ary[ index ] ) ) {}else{
+              p_list[i] = null;
+            }
+        });
+        p_list = $.grep( p_list , function(e){return e !== null;});
+//        alert(p_list.length);
+      }
+// セレクトタグのみる
+      var grade = [/.*/,/ItemGradebg1/,/ItemGradebg2/,/ItemGradebg3/,/ItemGradebg4/];
+      selected_find( grade , document.grade.linkselect.selectedIndex );
+      var stars = [/.*/,/☆1/,/☆2/,/☆3/,/☆4/,/☆5/,/☆6/,/☆7/,/☆8/,/☆9/];
+      selected_find( stars , document.stars.linkselect.selectedIndex );
+      var equipments = [/.*/,/靴/,/手袋/,/下半身/,
+      /盾/,/上半身/,/アームバンド/,/短剣/,/チャーム/,/>コスチューム/,/ヘアコスチューム/,/ネックレス/,/ブレスレット/,
+      /弩/,/キャノン/,/弓/,/マスケット/,/拳銃/,/鈍器/,/レイピア/,/片手槍/,/片手剣/,/両手槍/,/両手剣/,/ロッド/,/スタッフ/,]
+
+      selected_find( equipments , document.equipments.linkselect.selectedIndex );
+// -------------------------------------------------
+
+// 昇順　or 降順　or 並べ替え無し
+      var order_index = document.order.linkselect.selectedIndex;
+      p_list.sort(
+      	function( arg_a , arg_b ){
+            arg_a["src"].match(/<span class="smaller">.*?LV:(\d+?) ID:</i ) ;
+            a = parseInt(RegExp.$1)
+            arg_b["src"].match(/<span class="smaller">.*?LV:(\d+?) ID:</i ) ;
+            b = parseInt(RegExp.$1)
+            if( order_index == 2 ) {  // 昇順
+              if( a < b ) return -1;
+              if( a > b ) return 1;
+            } else if ( order_index  == 1 ) {  //降順
+              if( a < b ) return 1;
+              if( a > b ) return -1;
+            }
+            return 0;
+          }
+      );
+// ----------------------------------------
+      var limit = 1024;
+      for(var i = 0;i < p_list.length ; i++ ){
+        if(limit==i){break;}
+        pages[ 1+Math.floor(vn / view) ] += p_list[i]["src"] ;
+        vn += 1;
+      }
+
+      for(var i = 1;i < pages.length+1 ; i++ ){
+         $('#page-'+i).append( pages[i] );
+      }
+      // $('#page-result').append( `${vn} results` );
+      $('#page-result').append( vn + " results" );
+    });
+// 元HTMLのリンクが間違ってるのでの上書きを行う
+    if(arg1 == "製作物を見る/詳細(材料)"){
+      var test_more = [];
+      tosken_db({id:arg2_id}).each( function(r) { test_more.unshift(r); });
+      test_more[0]["src"].match(/[equip|itemID]ID:<span class="selectedClass">(\d+)<\/span>/);
+      arg2_id = RegExp.$1;
+      $('#more-result').empty();
+      tosken_db({id:arg2_id}).each( function(r) { tosken_echo_db2(r); });
+    }
+  } // onButtonClick
+  //
+  // セレクトタグのマップ装備 入力支援
+  function onChange_func( arg ){
+    obj = null;
+    if(arg == 'map'){
+      obj = document.map.linkselect;
+    }else if(arg == 'equip'){
+      obj = document.equip.linkselect;
+    }
+    else{ return false ; }
+    index = obj.selectedIndex;
+    if (index != 0){
+      document.forms.search_form1.keyword.value = obj.options[index].value;
+      obj.selectedIndex = 0;
+    }
+  }
+// --------------------------
+  $(function(){
+      $(".pagination").pagination({
+          items: 8,
+//           displayedPages: 1,
+          cssStyle: 'light-theme',
+          onPageClick: function( n ){
+              showPage( n );
+         }
+      })
+  });
+  function showPage( n ){
+      $('#more-result').empty();  // ページ切り替わったら more　消す
+      var page="#page-" + n;
+      $('.selection').hide();
+      $(page).show();
+  }
+//　セレクタリセット
+  function keyword_reset(){
+    document.forms.search_form1.keyword.value = "";
+    document.order.linkselect.selectedIndex = 0;
+    document.grade.linkselect.selectedIndex = 0;
+    document.stars.linkselect.selectedIndex = 0;
+    document.equipments.linkselect.selectedIndex = 0;
+    document.form1.keyword.focus();
+  }
+  function reset2(){
+    document.order.linkselect.selectedIndex = 0;
+    document.grade.linkselect.selectedIndex = 0;
+    document.stars.linkselect.selectedIndex = 0;
+    document.equipments.linkselect.selectedIndex = 0;
+    if($('select').find('option:selected').hasClass('not-select')) {
+       $('select').css({'color': '#bbb'});
+     }
+  }
+  //
+  </script>
+  <!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-68496450-1', 'auto');
+		ga('send', 'pageview', {
+		  'page': '/p_ktest',
+		  'title': ''
+		});
+	</script>
+	<!-- End Google Analytics -->
+</head>
+<body onLoad="onButtonClick_test()">
+<span id="search_detail" style="color:gray;"><a href="index.html" target="_blank">TOP</a>　　Tosのアイテムサーチです。 ktest-version.2017.04.21
+<p>jQuery3.2.0が動作するブラウザで見てください。動作環境：Chrome 〇 firefox 〇 IE △ でした。</p>
+<p>URLの後ろに「?page=アイテムID」で１件のみのデータを表示できます。「<a href="?page=58005" target="_blank">p.html?page=58005</a>」</p>
+</span>
+<form name="form1" id="search_form1" action="">
+  <input type="button" value="検索" class="" onclick="onButtonClick();" />
+  キーワード:	<input type="text" id="keyword" size="28" type="text" name="kensaku" value="" placeholder=""  onclick="this.select(0,this.value.length)" />
+  <span class="container pt20">
+    <span class="row pt20">
+      <span class="col-xs-12">
+        <span class="form-group radio-wrap text-center">
+          <label class="label-radio">
+            <input type="radio" name="radio" id="search_all"  checked='checked' />
+            <span class="lever">ALL</span>
+          </label>
+          <label class="label-radio">
+            <input type="radio" name="radio" id="search_equip" />
+            <span class="lever" style="background:#faffee;">装備</span>
+          </label>
+          <label class="label-radio">
+            <input type="radio" name="radio" id="search_item" />
+            <span class="lever" style="background:#fff6e9;">アイテム</span>
+          </label>
+          <label class="label-radio">
+            <input type="radio" name="radio" id="search_recipe" />
+            <span class="lever" style="background:#f7eaff;">製造書</span>
+          </label>
+          <label class="label-radio">
+            <input type="radio" name="radio" id="search_monster" />
+            <span class="lever" style="background:#f2f5f7;">モンスター</span>
+          </label>
+        </span>
+      </span>
+    </span>
+  </span>
+</form>
+
+<style><!--
+ul.foo {
+    display:table;
+    table-layout:fixed;
+    padding:0px;
+    margin: 0px;
+}
+ul.foo li {
+    display:table-cell;
+    vertical-align:middle;
+    text-align:left;
+    padding-right: 25px;
+}
+--></style>
+
+<ul class="foo"><li>
+    <form name="equip">
+    <select name="linkselect" onChange="onChange_func('equip')">
+    <option value="">装備LV</option>
+    <option value="装備LV[:| ]330">装備LV 330</option><option value="装備LV[:| ]315">装備LV 315</option><option value="装備LV[:| ]270">装備LV 270</option><option value="装備LV[:| ]220">装備LV 220</option><option value="装備LV[:| ]170">装備LV 170</option><option value="装備LV[:| ]120">装備LV 120</option><option value="装備LV[:| ]75">装備LV 75</option><option value="装備LV[:| ]40">装備LV 40</option><option value="装備LV[:| ]15">装備LV 15</option><option value="装備LV[:| ]1[^0-9]">装備LV 1</option>
+    </select>
+    </form>
+</li><li>
+    <form name="map">
+    <select name="linkselect" onChange="onChange_func('map')">
+      <option value="">MAP</option>
+      <option value="マップ.*?いにしえの女神の庭 LV99">いにしえの女神の庭 LV99</option><option value="マップ.*?アクメンスの尾根 LV67">アクメンスの尾根 LV67</option><option value="マップ.*?アシャーク地下監獄 1階 LV17">アシャーク地下監獄 1階 LV17</option><option value="マップ.*?アシャーク地下監獄 2階 LV21">アシャーク地下監獄 2階 LV21</option><option value="マップ.*?アシャーク地下監獄 3階 LV25">アシャーク地下監獄 3階 LV25</option><option value="マップ.*?アブセムタ水源地 LV68">アブセムタ水源地 LV68</option><option value="マップ.*?アプシメスティー交差路 LV133">アプシメスティー交差路 LV133</option><option value="マップ.*?アルコス森 LV307">アルコス森 LV307</option><option value="マップ.*?アレメテの森 LV220">アレメテの森 LV220</option><option value="マップ.*?アレルノー男爵領 LV84">アレルノー男爵領 LV84</option><option value="マップ.*?アレンビック洞窟 LV320">アレンビック洞窟 LV320</option><option value="マップ.*?イギティ沿岸 LV235">イギティ沿岸 LV235</option><option value="マップ.*?イストラ遺跡 LV176">イストラ遺跡 LV176</option><option value="マップ.*?イヴレー高原 LV238">イヴレー高原 LV238</option><option value="マップ.*?ウキス耕作地 LV166">ウキス耕作地 LV166</option><option value="マップ.*?エサンチウ村 LV103">エサンチウ村 LV103</option><option value="マップ.*?エメット森 LV316">エメット森 LV316</option><option value="マップ.*?エルゴス修道院別館 LV229">エルゴス修道院別館 LV229</option><option value="マップ.*?エルゴス修道院本院 LV232">エルゴス修道院本院 LV232</option><option value="マップ.*?オアス記念地 LV271">オアス記念地 LV271</option><option value="マップ.*?カデュメルの絶壁 LV250">カデュメルの絶壁 LV250</option><option value="マップ.*?カマドン森 LV282">カマドン森 LV282</option><option value="マップ.*?カルーの森 LV29">カルーの森 LV29</option><option value="マップ.*?カレイマス接見所 LV259">カレイマス接見所 LV259</option><option value="マップ.*?カロリスの泉 LV57">カロリスの泉 LV57</option><option value="マップ.*?カーティン森入口 LV106">カーティン森入口 LV106</option><option value="マップ.*?カーライルの霊廟 LV74">カーライルの霊廟 LV74</option><option value="マップ.*?ガルエット平野 LV103">ガルエット平野 LV103</option><option value="マップ.*?ギティスの開拓地 LV69">ギティスの開拓地 LV69</option><option value="マップ.*?クニドスの森 LV32">クニドスの森 LV32</option><option value="マップ.*?クバイラスの森 LV64">クバイラスの森 LV64</option><option value="マップ.*?クラント沿岸 LV232">クラント沿岸 LV232</option><option value="マップ.*?クレー峠 LV300">クレー峠 LV300</option><option value="マップ.*?グラデ丘の道 LV173">グラデ丘の道 LV173</option><option value="マップ.*?グリナス丘陵地 LV253">グリナス丘陵地 LV253</option><option value="マップ.*?グリナス修練場 LV249">グリナス修練場 LV249</option><option value="マップ.*?グリナス森の道 LV245">グリナス森の道 LV245</option><option value="マップ.*?グリーン家の荘園 LV149">グリーン家の荘園 LV149</option><option value="マップ.*?ゲナル平原 LV113">ゲナル平原 LV113</option><option value="マップ.*?ゲリー高原 LV29">ゲリー高原 LV29</option><option value="マップ.*?コノット森 LV278">コノット森 LV278</option><option value="マップ.*?コバルトの森 LV52">コバルトの森 LV52</option><option value="マップ.*?サクニス平原 LV114">サクニス平原 LV114</option><option value="マップ.*?サルビヤスの森 LV261">サルビヤスの森 LV261</option><option value="マップ.*?シエニカル墓場 LV70">シエニカル墓場 LV70</option><option value="マップ.*?シカリオス 1階 LV113">シカリオス 1階 LV113</option><option value="マップ.*?シカリオス 2階 LV117">シカリオス 2階 LV117</option><option value="マップ.*?シャウレイ東の森 LV6">シャウレイ東の森 LV6</option><option value="マップ.*?シャウレイ西の森 LV1">シャウレイ西の森 LV1</option><option value="マップ.*?シャウレイ鉱山の村 LV12">シャウレイ鉱山の村 LV12</option><option value="マップ.*?シャトン貯水区域 LV155">シャトン貯水区域 LV155</option><option value="マップ.*?シャトン農場 LV152">シャトン農場 LV152</option><option value="マップ.*?シャレジャー墓室 LV230">シャレジャー墓室 LV230</option><option value="マップ.*?シルドゲラの森 LV61">シルドゲラの森 LV61</option><option value="マップ.*?シーラ森 LV323">シーラ森 LV323</option><option value="マップ.*?ジェロメル公園 LV292">ジェロメル公園 LV292</option><option value="マップ.*?ジブリナス森 LV313">ジブリナス森 LV313</option><option value="マップ.*?ジャカリエル交差路 LV78">ジャカリエル交差路 LV78</option><option value="マップ.*?ジーマ・スコット LV308">ジーマ・スコット LV308</option><option value="マップ.*?スタティス交易路 LV88">スタティス交易路 LV88</option><option value="マップ.*?ストーガス高原 LV215">ストーガス高原 LV215</option><option value="マップ.*?スパルガス森 LV286">スパルガス森 LV286</option><option value="マップ.*?スベンティマス流刑地 LV246">スベンティマス流刑地 LV246</option><option value="マップ.*?スラウタス峡谷 LV26">スラウタス峡谷 LV26</option><option value="マップ.*?セイルの森 LV100">セイルの森 LV100</option><option value="マップ.*?セクターの森 LV265">セクターの森 LV265</option><option value="マップ.*?セプティニーの谷 LV55">セプティニーの谷 LV55</option><option value="マップ.*?ゼラハ LV96">ゼラハ LV96</option><option value="マップ.*?タウマスの林道 LV258">タウマスの林道 LV258</option><option value="マップ.*?タテナイ収監所 LV190">タテナイ収監所 LV190</option><option value="マップ.*?タニエル1世の記念球 LV303">タニエル1世の記念球 LV303</option><option value="マップ.*?タボール洞窟 LV100">タボール洞窟 LV100</option><option value="マップ.*?ターネット聖堂1階 LV44">ターネット聖堂1階 LV44</option><option value="マップ.*?ターネット聖堂2階 LV48">ターネット聖堂2階 LV48</option><option value="マップ.*?ターネット聖堂地下1階 LV40">ターネット聖堂地下1階 LV40</option><option value="マップ.*?ターネット花園 LV35">ターネット花園 LV35</option><option value="マップ.*?ダイナ養蜂地 LV160">ダイナ養蜂地 LV160</option><option value="マップ.*?ダダンの森 LV36">ダダンの森 LV36</option><option value="マップ.*?ティメリス寺院 LV292">ティメリス寺院 LV292</option><option value="マップ.*?ティルタス峡谷 LV69">ティルタス峡谷 LV69</option><option value="マップ.*?ティルラ修道院 LV183">ティルラ修道院 LV183</option><option value="マップ.*?テストゾーン">テストゾーン</option><option value="マップ.*?テナンツ農場 LV92">テナンツ農場 LV92</option><option value="マップ.*?テブリン鍾乳洞1区域 LV287">テブリン鍾乳洞1区域 LV287</option><option value="マップ.*?テブリン鍾乳洞2区域 LV291">テブリン鍾乳洞2区域 LV291</option><option value="マップ.*?テブリン鍾乳洞3区域 LV294">テブリン鍾乳洞3区域 LV294</option><option value="マップ.*?テブリン鍾乳洞4区域 LV298">テブリン鍾乳洞4区域 LV298</option><option value="マップ.*?テブリン鍾乳洞5区域 LV301">テブリン鍾乳洞5区域 LV301</option><option value="マップ.*?ディンゴパシル地区 LV207">ディンゴパシル地区 LV207</option><option value="マップ.*?デルムーア外郭 LV84">デルムーア外郭 LV84</option><option value="マップ.*?デルムーア小作村 LV76">デルムーア小作村 LV76</option><option value="マップ.*?デルムーア荘園 LV80">デルムーア荘園 LV80</option><option value="マップ.*?トペス砦 1階 LV91">トペス砦 1階 LV91</option><option value="マップ.*?トペス砦 2階 LV95">トペス砦 2階 LV95</option><option value="マップ.*?ドバシア峠 LV120">ドバシア峠 LV120</option><option value="マップ.*?ナコン監獄 LV150">ナコン監獄 LV150</option><option value="マップ.*?ナタフの見張り台 LV170">ナタフの見張り台 LV170</option><option value="マップ.*?ナハスの森 LV223">ナハスの森 LV223</option><option value="マップ.*?ナミュー寺院跡 LV172">ナミュー寺院跡 LV172</option><option value="マップ.*?ヌオルディンの滝 LV168">ヌオルディンの滝 LV168</option><option value="マップ.*?ネイポート聖堂東館 LV210">ネイポート聖堂東館 LV210</option><option value="マップ.*?ネタンメレク霊廟 LV240">ネタンメレク霊廟 LV240</option><option value="マップ.*?ネバレット鉱山 1階 LV39">ネバレット鉱山 1階 LV39</option><option value="マップ.*?ネバレット鉱山 2階 LV43">ネバレット鉱山 2階 LV43</option><option value="マップ.*?ネフリタスの崖 LV32">ネフリタスの崖 LV32</option><option value="マップ.*?ネルト森 LV282">ネルト森 LV282</option><option value="マップ.*?ノブリアの森 LV322">ノブリアの森 LV322</option><option value="マップ.*?ノヴァハ公会所 LV45">ノヴァハ公会所 LV45</option><option value="マップ.*?ノヴァハ別館 LV49">ノヴァハ別館 LV49</option><option value="マップ.*?ノヴァハ本院 LV53">ノヴァハ本院 LV53</option><option value="マップ.*?ハイランダーマスターの道場">ハイランダーマスターの道場</option><option value="マップ.*?バイデンティス神堂 LV194">バイデンティス神堂 LV194</option><option value="マップ.*?バリュスの永眠地 LV197">バリュスの永眠地 LV197</option><option value="マップ.*?バルハの森 LV223">バルハの森 LV223</option><option value="マップ.*?パウフィスの渡し場 LV12">パウフィスの渡し場 LV12</option><option value="マップ.*?パサカ峡谷 LV106">パサカ峡谷 LV106</option><option value="マップ.*?パマル森 LV310">パマル森 LV310</option><option value="マップ.*?ビエタ渓谷 LV49">ビエタ渓谷 LV49</option><option value="マップ.*?ビルティスの森 LV176">ビルティスの森 LV176</option><option value="マップ.*?ビルナ森 LV163">ビルナ森 LV163</option><option value="マップ.*?ピスティス森 LV319">ピスティス森 LV319</option><option value="マップ.*?フィルグリムの野道 LV124">フィルグリムの野道 LV124</option><option value="マップ.*?フェディミアン">フェディミアン</option><option value="マップ.*?フェディミアン外郭 LV107">フェディミアン外郭 LV107</option><option value="マップ.*?フェルケ神殿跡 LV65">フェルケ神殿跡 LV65</option><option value="マップ.*?ベダ高原 LV208">ベダ高原 LV208</option><option value="マップ.*?ベヤ谷 LV46">ベヤ谷 LV46</option><option value="マップ.*?ベライの森 LV92">ベライの森 LV92</option><option value="マップ.*?ベルクティ広場 LV184">ベルクティ広場 LV184</option><option value="マップ.*?ベーラ沿岸 LV226">ベーラ沿岸 LV226</option><option value="マップ.*?ペレトリーの丘 LV82">ペレトリーの丘 LV82</option><option value="マップ.*?ポスリンキスの森 LV112">ポスリンキスの森 LV112</option><option value="マップ.*?マダン高原 LV242">マダン高原 LV242</option><option value="マップ.*?マナクル墓地 LV109">マナクル墓地 LV109</option><option value="マップ.*?マナハース LV110">マナハース LV110</option><option value="マップ.*?マルトゥス貯蔵室 LV312">マルトゥス貯蔵室 LV312</option><option value="マップ.*?ミシュエカンの森 LV327">ミシュエカンの森 LV327</option><option value="マップ.*?ミルギティ農場 LV86">ミルギティ農場 LV86</option><option value="マップ.*?メイバーン大修道院 LV274">メイバーン大修道院 LV274</option><option value="マップ.*?メサパスラ LV212">メサパスラ LV212</option><option value="マップ.*?モクスルの墓室 LV188">モクスルの墓室 LV188</option><option value="マップ.*?モチア森 LV85">モチア森 LV85</option><option value="マップ.*?モロゲオ森 LV316">モロゲオ森 LV316</option><option value="マップ.*?ユデイアンの森 LV325">ユデイアンの森 LV325</option><option value="マップ.*?ヨナエル記念区 LV295">ヨナエル記念区 LV295</option><option value="マップ.*?ラウキメ低湿地 LV179">ラウキメ低湿地 LV179</option><option value="マップ.*?ラダル森 LV289">ラダル森 LV289</option><option value="マップ.*?ラムスティス峡谷 LV61">ラムスティス峡谷 LV61</option><option value="マップ.*?リティニス地下墓地 LV191">リティニス地下墓地 LV191</option><option value="マップ.*?ルカス高原 LV73">ルカス高原 LV73</option><option value="マップ.*?ルクソナ再建団東館 LV182">ルクソナ再建団東館 LV182</option><option value="マップ.*?ルクソナ再建団西館 LV178">ルクソナ再建団西館 LV178</option><option value="マップ.*?ルクソナ市場 LV187">ルクソナ市場 LV187</option><option value="マップ.*?ルクリス殿堂 LV230">ルクリス殿堂 LV230</option><option value="マップ.*?ルクリス通り LV190">ルクリス通り LV190</option><option value="マップ.*?レスボーイ湖のほとり LV268">レスボーイ湖のほとり LV268</option><option value="マップ.*?レンパリサ池 LV1">レンパリサ池 LV1</option><option value="マップ.*?レータス小川 LV61">レータス小川 LV61</option><option value="マップ.*?中心市街地 LV193">中心市街地 LV193</option><option value="マップ.*?作業場 LV269">作業場 LV269</option><option value="マップ.*?保存区域 LV211">保存区域 LV211</option><option value="マップ.*?保管室 LV262">保管室 LV262</option><option value="マップ.*?内城壁・第8区域 LV279">内城壁・第8区域 LV279</option><option value="マップ.*?内城壁・第9区域 LV282">内城壁・第9区域 LV282</option><option value="マップ.*?刃色の盆地">刃色の盆地</option><option value="マップ.*?前哨区域 LV200">前哨区域 LV200</option><option value="マップ.*?古旗の森 LV123">古旗の森 LV123</option><option value="マップ.*?城郭内地区 LV196">城郭内地区 LV196</option><option value="マップ.*?外城壁・第9区域 LV285">外城壁・第9区域 LV285</option><option value="マップ.*?大又の道 LV121">大又の道 LV121</option><option value="マップ.*?大回廊 LV140">大回廊 LV140</option><option value="マップ.*?大地の要塞 決戦地 LV214">大地の要塞 決戦地 LV214</option><option value="マップ.*?大王の関門 LV58">大王の関門 LV58</option><option value="マップ.*?大聖堂の懺悔路 LV143">大聖堂の懺悔路 LV143</option><option value="マップ.*?密室">密室</option><option value="マップ.*?対立の訓練場 LV204">対立の訓練場 LV204</option><option value="マップ.*?尋問室 LV272">尋問室 LV272</option><option value="マップ.*?居住区域 LV207">居住区域 LV207</option><option value="マップ.*?拡張区域 LV234">拡張区域 LV234</option><option value="マップ.*?春光の森 LV169">春光の森 LV169</option><option value="マップ.*?本堂 LV137">本堂 LV137</option><option value="マップ.*?水晶鉱山1階 LV16">水晶鉱山1階 LV16</option><option value="マップ.*?水晶鉱山2階 LV20">水晶鉱山2階 LV20</option><option value="マップ.*?水晶鉱山3階 LV22">水晶鉱山3階 LV22</option><option value="マップ.*?水晶鉱山第2鉱区1階 LV102">水晶鉱山第2鉱区1階 LV102</option><option value="マップ.*?水晶鉱山第2鉱区2階 LV106">水晶鉱山第2鉱区2階 LV106</option><option value="マップ.*?水路橋地域 LV89">水路橋地域 LV89</option><option value="マップ.*?沿岸要塞 LV204">沿岸要塞 LV204</option><option value="マップ.*?独房区域 LV265">独房区域 LV265</option><option value="マップ.*?王の高原 LV76">王の高原 LV76</option><option value="マップ.*?王陵1階 LV81">王陵1階 LV81</option><option value="マップ.*?王陵2階 LV84">王陵2階 LV84</option><option value="マップ.*?王陵3階 LV87">王陵3階 LV87</option><option value="マップ.*?王陵4階 LV90">王陵4階 LV90</option><option value="マップ.*?王陵5階 LV93">王陵5階 LV93</option><option value="マップ.*?王陵の労働者寮 LV73">王陵の労働者寮 LV73</option><option value="マップ.*?王陵の積材所 LV83">王陵の積材所 LV83</option><option value="マップ.*?王陵建築者の礼拝堂 LV78">王陵建築者の礼拝堂 LV78</option><option value="マップ.*?番人の墓場 LV53">番人の墓場 LV53</option><option value="マップ.*?矢の道">矢の道</option><option value="マップ.*?碑石路 LV96">碑石路 LV96</option><option value="マップ.*?祭壇路 LV127">祭壇路 LV127</option><option value="マップ.*?第2魔族収監所 LV161">第2魔族収監所 LV161</option><option value="マップ.*?至聖所 LV145">至聖所 LV145</option><option value="マップ.*?衰退したルグィン家の邸宅 LV132">衰退したルグィン家の邸宅 LV132</option><option value="マップ.*?起源の森 LV130">起源の森 LV130</option><option value="マップ.*?避難居住区 LV238">避難居住区 LV238</option><option value="マップ.*?都心城壁・第8区域 LV289">都心城壁・第8区域 LV289</option><option value="マップ.*?重ね橋の森 LV8">重ね橋の森 LV8</option><option value="マップ.*?鋼鉄高原 LV253">鋼鉄高原 LV253</option><option value="マップ.*?長橋峡谷 LV64">長橋峡谷 LV64</option><option value="マップ.*?関門路 LV58">関門路 LV58</option><option value="マップ.*?魔族収監所 第1区域 LV151">魔族収監所 第1区域 LV151</option><option value="マップ.*?魔族収監所 第2区域 LV154">魔族収監所 第2区域 LV154</option><option value="マップ.*?魔族収監所 第3区域 LV157">魔族収監所 第3区域 LV157</option><option value="マップ.*?魔族収監所 第4区域 LV160">魔族収監所 第4区域 LV160</option><option value="マップ.*?魔族収監所 第5区域 LV163">魔族収監所 第5区域 LV163</option><option value="マップ.*?魔術師の塔1階 LV113">魔術師の塔1階 LV113</option><option value="マップ.*?魔術師の塔2階 LV116">魔術師の塔2階 LV116</option><option value="マップ.*?魔術師の塔3階 LV119">魔術師の塔3階 LV119</option><option value="マップ.*?魔術師の塔4階 LV123">魔術師の塔4階 LV123</option><option value="マップ.*?魔術師の塔5階 LV126">魔術師の塔5階 LV126</option><option value="マップ.*?030ID 初級ディフェンスミッション：イベント LV9999">030ID 初級ディフェンスミッション：イベント LV9999</option><option value="マップ.*?050ID 聖堂地下ダンジョン LV9999">050ID 聖堂地下ダンジョン LV9999</option><option value="マップ.*?070ID 中級ディフェンスミッション：イベント LV9999">070ID 中級ディフェンスミッション：イベント LV9999</option><option value="マップ.*?090ID 廃墟の遺跡 LV9999">090ID 廃墟の遺跡 LV9999</option><option value="マップ.*?100ID カタコムミッション LV9999">100ID カタコムミッション LV9999</option><option value="マップ.*?100ID ゲリー高原ミッション LV9999">100ID ゲリー高原ミッション LV9999</option><option value="マップ.*?100ID シャウレイミッション LV9999">100ID シャウレイミッション LV9999</option><option value="マップ.*?100ID 七彩谷ミッション LV9999">100ID 七彩谷ミッション LV9999</option><option value="マップ.*?100ID 水晶鉱山ミッション LV9999">100ID 水晶鉱山ミッション LV9999</option><option value="マップ.*?100ID 聖堂ミッション LV9999">100ID 聖堂ミッション LV9999</option><option value="マップ.*?115ID 念願の碑石路ダンジョン LV9999">115ID 念願の碑石路ダンジョン LV9999</option><option value="マップ.*?120ID 防衛戦ミッション LV9999">120ID 防衛戦ミッション LV9999</option><option value="マップ.*?130ID 衰退したルグィン家のダンジョン LV9999">130ID 衰退したルグィン家のダンジョン LV9999</option><option value="マップ.*?145ID 空虚の棘の森 LV9999">145ID 空虚の棘の森 LV9999</option><option value="マップ.*?160ID 崩壊した邸宅 LV9999">160ID 崩壊した邸宅 LV9999</option><option value="マップ.*?175ID 茨の森 LV9999">175ID 茨の森 LV9999</option><option value="マップ.*?190ID 大魔術師の塔 LV9999">190ID 大魔術師の塔 LV9999</option><option value="マップ.*?200ID カタコム地下ダンジョン LV9999">200ID カタコム地下ダンジョン LV9999</option><option value="マップ.*?217ID 奥深き地下監獄ダンジョン LV9999">217ID 奥深き地下監獄ダンジョン LV9999</option><option value="マップ.*?240ID 修道院記録室ミッション LV9999">240ID 修道院記録室ミッション LV9999</option><option value="マップ.*?240ID 峡谷地帯ミッション LV9999">240ID 峡谷地帯ミッション LV9999</option><option value="マップ.*?240ID 湖ミッション LV9999">240ID 湖ミッション LV9999</option><option value="マップ.*?240ID 王陵ミッション LV9999">240ID 王陵ミッション LV9999</option><option value="マップ.*?240ID 青き要塞ダンジョン LV9999">240ID 青き要塞ダンジョン LV9999</option><option value="マップ.*?290ID キャッスルダンジョン LV9999">290ID キャッスルダンジョン LV9999</option><option value="マップ.*?315ID 過去の幻想図書館：サウシス9館 LV9999">315ID 過去の幻想図書館：サウシス9館 LV9999</option><option value="マップ.*?999ID 遺跡地帯ミッション LV9999">999ID 遺跡地帯ミッション LV9999</option><option value="マップ.*?ET01 大地の塔ロロパンサー LV9900">ET01 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET02 大地の塔ロロパンサー LV9900">ET02 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET03 大地の塔ロロパンサー LV9900">ET03 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET04 大地の塔ロロパンサー LV9900">ET04 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET05 大地の塔ロロパンサー LV9900">ET05 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET06 大地の塔ロロパンサー LV9900">ET06 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET07 大地の塔ロロパンサー LV9900">ET07 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET08 大地の塔ロロパンサー LV9900">ET08 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET09 大地の塔ロロパンサー LV9900">ET09 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET10 大地の塔ロロパンサー LV9900">ET10 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET11 大地の塔ロロパンサー LV9900">ET11 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET12 大地の塔ロロパンサー LV9900">ET12 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET13 大地の塔ロロパンサー LV9900">ET13 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET14 大地の塔ロロパンサー LV9900">ET14 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET15 大地の塔ロロパンサー LV9900">ET15 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET16 大地の塔ロロパンサー LV9900">ET16 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET17 大地の塔ロロパンサー LV9900">ET17 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET18 大地の塔ロロパンサー LV9900">ET18 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET19 大地の塔ロロパンサー LV9900">ET19 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET20 大地の塔ロロパンサー LV9900">ET20 大地の塔ロロパンサー LV9900</option><option value="マップ.*?ET21 大地の塔ソルミキ LV9900">ET21 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET22 大地の塔ソルミキ LV9900">ET22 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET23 大地の塔ソルミキ LV9900">ET23 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET24 大地の塔ソルミキ LV9900">ET24 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET25 大地の塔ソルミキ LV9900">ET25 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET26 大地の塔ソルミキ LV9900">ET26 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET27 大地の塔ソルミキ LV9900">ET27 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET28 大地の塔ソルミキ LV9900">ET28 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET29 大地の塔ソルミキ LV9900">ET29 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET30 大地の塔ソルミキ LV9900">ET30 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET31 大地の塔ソルミキ LV9900">ET31 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET32 大地の塔ソルミキ LV9900">ET32 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET33 大地の塔ソルミキ LV9900">ET33 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET34 大地の塔ソルミキ LV9900">ET34 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET35 大地の塔ソルミキ LV9900">ET35 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET36 大地の塔ソルミキ LV9900">ET36 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET37 大地の塔ソルミキ LV9900">ET37 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET38 大地の塔ソルミキ LV9900">ET38 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET39 大地の塔ソルミキ LV9900">ET39 大地の塔ソルミキ LV9900</option><option value="マップ.*?ET40 大地の塔ソルミキ LV9900">ET40 大地の塔ソルミキ LV9900</option>
+    </select>
+    </form>
+</li></ul>
+<ul class="foo"><li>
+    <form name="order">
+    <select name="linkselect" onChange="onChange_func('order')">
+      <option value="" class="not-select">ソート</option>
+      <option value="-1">レベル高い順</option><option value="1">レベル低い順</option>
+    </select>
+    </form>
+</li><li>
+    <form name="grade">
+    <select name="linkselect" onChange="onChange_func('grade')">
+      <option value="" class="not-select">レア</option>
+      <option value="Common">白</option>
+      <option value="Blue">青</option>
+      <option value="Purple">紫</option>
+      <option value="Orange">橙</option>
+    </select>
+    </form>
+</li><li>
+    <form name="stars">
+    <select name="linkselect" onChange="onChange_func('stars')">
+      <option value="" class="not-select">☆彡</option>
+      <option value="1">☆</option><option value="2">☆☆</option><option value="3">☆☆☆</option><option value="4">☆☆☆☆</option><option value="5">☆☆☆☆☆</option><option value="6">☆☆☆☆☆☆</option><option value="7">☆☆☆☆☆☆☆</option><option value="8">☆☆☆☆☆☆☆☆</option><option value="9">☆☆☆☆☆☆☆☆☆</option>
+    </select>
+    </form>
+</li><li>
+    <form name="equipments">
+    <select name="linkselect" onChange="onChange_func('equipments')">
+      <option value="" class="not-select">装備</option>
+      <option value="">靴</option><option value="">手袋</option><option value="">下半身</option>
+      <option value="">盾</option><option value="">上半身</option><option value="">アームバンド</option>
+      <option value="">短剣</option><option value="">チャーム</option><option value="">コスチューム</option>
+      <option value="">ヘアコスチューム</option><option value="">ネックレス</option>
+      <option value="">ブレスレット</option><option value="">弩</option>
+      <option value="">キャノン</option><option value="">弓</option>
+      <option value="">マスケット</option><option value="">拳銃</option>
+      <option value="">鈍器</option><option value="">レイピア</option>
+      <option value="">片手槍</option><option value="">片手剣</option>
+      <option value="">両手槍</option><option value="">両手剣</option>
+      <option value="">ロッド</option><option value="">スタッフ</option>
+    </select>
+    </form>
+
+</li></ul>
+
+
+
+  <span id="search_detail" style="color:gray;">
+    <span id="page-result"></span>
+  </span>
+
+  <hr>
+
+  <style><!--
+  .selection {display: none;}
+  #page-1 { display: block;}
+  -->
+  </style>
+
+  <div class="pagination-holder clearfix">
+    <div id="light-pagination" class="pagination"></div>
+  </div>
+  <div id="more-result"></div>
+  <div class="selection" id="page-1"></div>
+  <div class="selection" id="page-2"></div>
+  <div class="selection" id="page-3"></div>
+  <div class="selection" id="page-4"></div>
+  <div class="selection" id="page-5"></div>
+  <div class="selection" id="page-6"></div>
+  <div class="selection" id="page-7"></div>
+  <div class="selection" id="page-8"></div>
+  <div class="selection" id="page-9"></div>
+  <!-- <script>
+  for(var i=10;i<700; i++){
+    document.write("<div class=\"selection\" id=\"page-'+ i + '\">");
+  }
+  </script> -->
+<div class="selection" id="page-10"></div><div class="selection" id="page-11"></div><div class="selection" id="page-12"></div><div class="selection" id="page-13"></div><div class="selection" id="page-14"></div><div class="selection" id="page-15"></div><div class="selection" id="page-16"></div><div class="selection" id="page-17"></div><div class="selection" id="page-18"></div><div class="selection" id="page-19"></div><div class="selection" id="page-20"></div><div class="selection" id="page-21"></div><div class="selection" id="page-22"></div><div class="selection" id="page-23"></div><div class="selection" id="page-24"></div><div class="selection" id="page-25"></div><div class="selection" id="page-26"></div><div class="selection" id="page-27"></div><div class="selection" id="page-28"></div><div class="selection" id="page-29"></div><div class="selection" id="page-30"></div><div class="selection" id="page-31"></div><div class="selection" id="page-32"></div><div class="selection" id="page-33"></div><div class="selection" id="page-34"></div><div class="selection" id="page-35"></div><div class="selection" id="page-36"></div><div class="selection" id="page-37"></div><div class="selection" id="page-38"></div><div class="selection" id="page-39"></div><div class="selection" id="page-40"></div><div class="selection" id="page-41"></div><div class="selection" id="page-42"></div><div class="selection" id="page-43"></div><div class="selection" id="page-44"></div><div class="selection" id="page-45"></div><div class="selection" id="page-46"></div><div class="selection" id="page-47"></div><div class="selection" id="page-48"></div><div class="selection" id="page-49"></div><div class="selection" id="page-50"></div><div class="selection" id="page-51"></div><div class="selection" id="page-52"></div><div class="selection" id="page-53"></div><div class="selection" id="page-54"></div><div class="selection" id="page-55"></div><div class="selection" id="page-56"></div><div class="selection" id="page-57"></div><div class="selection" id="page-58"></div><div class="selection" id="page-59"></div><div class="selection" id="page-60"></div><div class="selection" id="page-61"></div><div class="selection" id="page-62"></div><div class="selection" id="page-63"></div><div class="selection" id="page-64"></div><div class="selection" id="page-65"></div><div class="selection" id="page-66"></div><div class="selection" id="page-67"></div><div class="selection" id="page-68"></div><div class="selection" id="page-69"></div><div class="selection" id="page-70"></div><div class="selection" id="page-71"></div><div class="selection" id="page-72"></div><div class="selection" id="page-73"></div><div class="selection" id="page-74"></div><div class="selection" id="page-75"></div><div class="selection" id="page-76"></div><div class="selection" id="page-77"></div><div class="selection" id="page-78"></div><div class="selection" id="page-79"></div><div class="selection" id="page-80"></div><div class="selection" id="page-81"></div><div class="selection" id="page-82"></div><div class="selection" id="page-83"></div><div class="selection" id="page-84"></div><div class="selection" id="page-85"></div><div class="selection" id="page-86"></div><div class="selection" id="page-87"></div><div class="selection" id="page-88"></div><div class="selection" id="page-89"></div><div class="selection" id="page-90"></div><div class="selection" id="page-91"></div><div class="selection" id="page-92"></div><div class="selection" id="page-93"></div><div class="selection" id="page-94"></div><div class="selection" id="page-95"></div><div class="selection" id="page-96"></div><div class="selection" id="page-97"></div><div class="selection" id="page-98"></div><div class="selection" id="page-99"></div><div class="selection" id="page-100"></div><div class="selection" id="page-101"></div><div class="selection" id="page-102"></div><div class="selection" id="page-103"></div><div class="selection" id="page-104"></div><div class="selection" id="page-105"></div><div class="selection" id="page-106"></div><div class="selection" id="page-107"></div><div class="selection" id="page-108"></div><div class="selection" id="page-109"></div><div class="selection" id="page-110"></div><div class="selection" id="page-111"></div><div class="selection" id="page-112"></div><div class="selection" id="page-113"></div><div class="selection" id="page-114"></div><div class="selection" id="page-115"></div><div class="selection" id="page-116"></div><div class="selection" id="page-117"></div><div class="selection" id="page-118"></div><div class="selection" id="page-119"></div><div class="selection" id="page-120"></div><div class="selection" id="page-121"></div><div class="selection" id="page-122"></div><div class="selection" id="page-123"></div><div class="selection" id="page-124"></div><div class="selection" id="page-125"></div><div class="selection" id="page-126"></div><div class="selection" id="page-127"></div><div class="selection" id="page-128"></div><div class="selection" id="page-129"></div><div class="selection" id="page-130"></div><div class="selection" id="page-131"></div><div class="selection" id="page-132"></div><div class="selection" id="page-133"></div><div class="selection" id="page-134"></div><div class="selection" id="page-135"></div><div class="selection" id="page-136"></div><div class="selection" id="page-137"></div><div class="selection" id="page-138"></div><div class="selection" id="page-139"></div><div class="selection" id="page-140"></div><div class="selection" id="page-141"></div><div class="selection" id="page-142"></div><div class="selection" id="page-143"></div><div class="selection" id="page-144"></div><div class="selection" id="page-145"></div><div class="selection" id="page-146"></div><div class="selection" id="page-147"></div><div class="selection" id="page-148"></div><div class="selection" id="page-149"></div><div class="selection" id="page-150"></div><div class="selection" id="page-151"></div><div class="selection" id="page-152"></div><div class="selection" id="page-153"></div><div class="selection" id="page-154"></div><div class="selection" id="page-155"></div><div class="selection" id="page-156"></div><div class="selection" id="page-157"></div><div class="selection" id="page-158"></div><div class="selection" id="page-159"></div><div class="selection" id="page-160"></div><div class="selection" id="page-161"></div><div class="selection" id="page-162"></div><div class="selection" id="page-163"></div><div class="selection" id="page-164"></div><div class="selection" id="page-165"></div><div class="selection" id="page-166"></div><div class="selection" id="page-167"></div><div class="selection" id="page-168"></div><div class="selection" id="page-169"></div><div class="selection" id="page-170"></div><div class="selection" id="page-171"></div><div class="selection" id="page-172"></div><div class="selection" id="page-173"></div><div class="selection" id="page-174"></div><div class="selection" id="page-175"></div><div class="selection" id="page-176"></div><div class="selection" id="page-177"></div><div class="selection" id="page-178"></div><div class="selection" id="page-179"></div><div class="selection" id="page-180"></div><div class="selection" id="page-181"></div><div class="selection" id="page-182"></div><div class="selection" id="page-183"></div><div class="selection" id="page-184"></div><div class="selection" id="page-185"></div><div class="selection" id="page-186"></div><div class="selection" id="page-187"></div><div class="selection" id="page-188"></div><div class="selection" id="page-189"></div><div class="selection" id="page-190"></div><div class="selection" id="page-191"></div><div class="selection" id="page-192"></div><div class="selection" id="page-193"></div><div class="selection" id="page-194"></div><div class="selection" id="page-195"></div><div class="selection" id="page-196"></div><div class="selection" id="page-197"></div><div class="selection" id="page-198"></div><div class="selection" id="page-199"></div><div class="selection" id="page-200"></div><div class="selection" id="page-201"></div><div class="selection" id="page-202"></div><div class="selection" id="page-203"></div><div class="selection" id="page-204"></div><div class="selection" id="page-205"></div><div class="selection" id="page-206"></div><div class="selection" id="page-207"></div><div class="selection" id="page-208"></div><div class="selection" id="page-209"></div><div class="selection" id="page-210"></div><div class="selection" id="page-211"></div><div class="selection" id="page-212"></div><div class="selection" id="page-213"></div><div class="selection" id="page-214"></div><div class="selection" id="page-215"></div><div class="selection" id="page-216"></div><div class="selection" id="page-217"></div><div class="selection" id="page-218"></div><div class="selection" id="page-219"></div><div class="selection" id="page-220"></div><div class="selection" id="page-221"></div><div class="selection" id="page-222"></div><div class="selection" id="page-223"></div><div class="selection" id="page-224"></div><div class="selection" id="page-225"></div><div class="selection" id="page-226"></div><div class="selection" id="page-227"></div><div class="selection" id="page-228"></div><div class="selection" id="page-229"></div><div class="selection" id="page-230"></div><div class="selection" id="page-231"></div><div class="selection" id="page-232"></div><div class="selection" id="page-233"></div><div class="selection" id="page-234"></div><div class="selection" id="page-235"></div><div class="selection" id="page-236"></div><div class="selection" id="page-237"></div><div class="selection" id="page-238"></div><div class="selection" id="page-239"></div><div class="selection" id="page-240"></div><div class="selection" id="page-241"></div><div class="selection" id="page-242"></div><div class="selection" id="page-243"></div><div class="selection" id="page-244"></div><div class="selection" id="page-245"></div><div class="selection" id="page-246"></div><div class="selection" id="page-247"></div><div class="selection" id="page-248"></div><div class="selection" id="page-249"></div><div class="selection" id="page-250"></div><div class="selection" id="page-251"></div><div class="selection" id="page-252"></div><div class="selection" id="page-253"></div><div class="selection" id="page-254"></div><div class="selection" id="page-255"></div><div class="selection" id="page-256"></div><div class="selection" id="page-257"></div><div class="selection" id="page-258"></div><div class="selection" id="page-259"></div><div class="selection" id="page-260"></div><div class="selection" id="page-261"></div><div class="selection" id="page-262"></div><div class="selection" id="page-263"></div><div class="selection" id="page-264"></div><div class="selection" id="page-265"></div><div class="selection" id="page-266"></div><div class="selection" id="page-267"></div><div class="selection" id="page-268"></div><div class="selection" id="page-269"></div><div class="selection" id="page-270"></div><div class="selection" id="page-271"></div><div class="selection" id="page-272"></div><div class="selection" id="page-273"></div><div class="selection" id="page-274"></div><div class="selection" id="page-275"></div><div class="selection" id="page-276"></div><div class="selection" id="page-277"></div><div class="selection" id="page-278"></div><div class="selection" id="page-279"></div><div class="selection" id="page-280"></div><div class="selection" id="page-281"></div><div class="selection" id="page-282"></div><div class="selection" id="page-283"></div><div class="selection" id="page-284"></div><div class="selection" id="page-285"></div><div class="selection" id="page-286"></div><div class="selection" id="page-287"></div><div class="selection" id="page-288"></div><div class="selection" id="page-289"></div><div class="selection" id="page-290"></div><div class="selection" id="page-291"></div><div class="selection" id="page-292"></div><div class="selection" id="page-293"></div><div class="selection" id="page-294"></div><div class="selection" id="page-295"></div><div class="selection" id="page-296"></div><div class="selection" id="page-297"></div><div class="selection" id="page-298"></div><div class="selection" id="page-299"></div><div class="selection" id="page-300"></div><div class="selection" id="page-301"></div><div class="selection" id="page-302"></div><div class="selection" id="page-303"></div><div class="selection" id="page-304"></div><div class="selection" id="page-305"></div><div class="selection" id="page-306"></div><div class="selection" id="page-307"></div><div class="selection" id="page-308"></div><div class="selection" id="page-309"></div><div class="selection" id="page-310"></div><div class="selection" id="page-311"></div><div class="selection" id="page-312"></div><div class="selection" id="page-313"></div><div class="selection" id="page-314"></div><div class="selection" id="page-315"></div><div class="selection" id="page-316"></div><div class="selection" id="page-317"></div><div class="selection" id="page-318"></div><div class="selection" id="page-319"></div><div class="selection" id="page-320"></div><div class="selection" id="page-321"></div><div class="selection" id="page-322"></div><div class="selection" id="page-323"></div><div class="selection" id="page-324"></div><div class="selection" id="page-325"></div><div class="selection" id="page-326"></div><div class="selection" id="page-327"></div><div class="selection" id="page-328"></div><div class="selection" id="page-329"></div><div class="selection" id="page-330"></div><div class="selection" id="page-331"></div><div class="selection" id="page-332"></div><div class="selection" id="page-333"></div><div class="selection" id="page-334"></div><div class="selection" id="page-335"></div><div class="selection" id="page-336"></div><div class="selection" id="page-337"></div><div class="selection" id="page-338"></div><div class="selection" id="page-339"></div><div class="selection" id="page-340"></div><div class="selection" id="page-341"></div><div class="selection" id="page-342"></div><div class="selection" id="page-343"></div><div class="selection" id="page-344"></div><div class="selection" id="page-345"></div><div class="selection" id="page-346"></div><div class="selection" id="page-347"></div><div class="selection" id="page-348"></div><div class="selection" id="page-349"></div><div class="selection" id="page-350"></div><div class="selection" id="page-351"></div><div class="selection" id="page-352"></div><div class="selection" id="page-353"></div><div class="selection" id="page-354"></div><div class="selection" id="page-355"></div><div class="selection" id="page-356"></div><div class="selection" id="page-357"></div><div class="selection" id="page-358"></div><div class="selection" id="page-359"></div><div class="selection" id="page-360"></div><div class="selection" id="page-361"></div><div class="selection" id="page-362"></div><div class="selection" id="page-363"></div><div class="selection" id="page-364"></div><div class="selection" id="page-365"></div><div class="selection" id="page-366"></div><div class="selection" id="page-367"></div><div class="selection" id="page-368"></div><div class="selection" id="page-369"></div><div class="selection" id="page-370"></div><div class="selection" id="page-371"></div><div class="selection" id="page-372"></div><div class="selection" id="page-373"></div><div class="selection" id="page-374"></div><div class="selection" id="page-375"></div><div class="selection" id="page-376"></div><div class="selection" id="page-377"></div><div class="selection" id="page-378"></div><div class="selection" id="page-379"></div><div class="selection" id="page-380"></div><div class="selection" id="page-381"></div><div class="selection" id="page-382"></div><div class="selection" id="page-383"></div><div class="selection" id="page-384"></div><div class="selection" id="page-385"></div><div class="selection" id="page-386"></div><div class="selection" id="page-387"></div><div class="selection" id="page-388"></div><div class="selection" id="page-389"></div><div class="selection" id="page-390"></div><div class="selection" id="page-391"></div><div class="selection" id="page-392"></div><div class="selection" id="page-393"></div><div class="selection" id="page-394"></div><div class="selection" id="page-395"></div><div class="selection" id="page-396"></div><div class="selection" id="page-397"></div><div class="selection" id="page-398"></div><div class="selection" id="page-399"></div><div class="selection" id="page-400"></div><div class="selection" id="page-401"></div><div class="selection" id="page-402"></div><div class="selection" id="page-403"></div><div class="selection" id="page-404"></div><div class="selection" id="page-405"></div><div class="selection" id="page-406"></div><div class="selection" id="page-407"></div><div class="selection" id="page-408"></div><div class="selection" id="page-409"></div><div class="selection" id="page-410"></div><div class="selection" id="page-411"></div><div class="selection" id="page-412"></div><div class="selection" id="page-413"></div><div class="selection" id="page-414"></div><div class="selection" id="page-415"></div><div class="selection" id="page-416"></div><div class="selection" id="page-417"></div><div class="selection" id="page-418"></div><div class="selection" id="page-419"></div><div class="selection" id="page-420"></div><div class="selection" id="page-421"></div><div class="selection" id="page-422"></div><div class="selection" id="page-423"></div><div class="selection" id="page-424"></div><div class="selection" id="page-425"></div><div class="selection" id="page-426"></div><div class="selection" id="page-427"></div><div class="selection" id="page-428"></div><div class="selection" id="page-429"></div><div class="selection" id="page-430"></div><div class="selection" id="page-431"></div><div class="selection" id="page-432"></div><div class="selection" id="page-433"></div><div class="selection" id="page-434"></div><div class="selection" id="page-435"></div><div class="selection" id="page-436"></div><div class="selection" id="page-437"></div><div class="selection" id="page-438"></div><div class="selection" id="page-439"></div><div class="selection" id="page-440"></div><div class="selection" id="page-441"></div><div class="selection" id="page-442"></div><div class="selection" id="page-443"></div><div class="selection" id="page-444"></div><div class="selection" id="page-445"></div><div class="selection" id="page-446"></div><div class="selection" id="page-447"></div><div class="selection" id="page-448"></div><div class="selection" id="page-449"></div><div class="selection" id="page-450"></div><div class="selection" id="page-451"></div><div class="selection" id="page-452"></div><div class="selection" id="page-453"></div><div class="selection" id="page-454"></div><div class="selection" id="page-455"></div><div class="selection" id="page-456"></div><div class="selection" id="page-457"></div><div class="selection" id="page-458"></div><div class="selection" id="page-459"></div><div class="selection" id="page-460"></div><div class="selection" id="page-461"></div><div class="selection" id="page-462"></div><div class="selection" id="page-463"></div><div class="selection" id="page-464"></div><div class="selection" id="page-465"></div><div class="selection" id="page-466"></div><div class="selection" id="page-467"></div><div class="selection" id="page-468"></div><div class="selection" id="page-469"></div><div class="selection" id="page-470"></div><div class="selection" id="page-471"></div><div class="selection" id="page-472"></div><div class="selection" id="page-473"></div><div class="selection" id="page-474"></div><div class="selection" id="page-475"></div><div class="selection" id="page-476"></div><div class="selection" id="page-477"></div><div class="selection" id="page-478"></div><div class="selection" id="page-479"></div><div class="selection" id="page-480"></div><div class="selection" id="page-481"></div><div class="selection" id="page-482"></div><div class="selection" id="page-483"></div><div class="selection" id="page-484"></div><div class="selection" id="page-485"></div><div class="selection" id="page-486"></div><div class="selection" id="page-487"></div><div class="selection" id="page-488"></div><div class="selection" id="page-489"></div><div class="selection" id="page-490"></div><div class="selection" id="page-491"></div><div class="selection" id="page-492"></div><div class="selection" id="page-493"></div><div class="selection" id="page-494"></div><div class="selection" id="page-495"></div><div class="selection" id="page-496"></div><div class="selection" id="page-497"></div><div class="selection" id="page-498"></div><div class="selection" id="page-499"></div><div class="selection" id="page-500"></div><div class="selection" id="page-501"></div><div class="selection" id="page-502"></div><div class="selection" id="page-503"></div><div class="selection" id="page-504"></div><div class="selection" id="page-505"></div><div class="selection" id="page-506"></div><div class="selection" id="page-507"></div><div class="selection" id="page-508"></div><div class="selection" id="page-509"></div><div class="selection" id="page-510"></div><div class="selection" id="page-511"></div><div class="selection" id="page-512"></div><div class="selection" id="page-513"></div><div class="selection" id="page-514"></div><div class="selection" id="page-515"></div><div class="selection" id="page-516"></div><div class="selection" id="page-517"></div><div class="selection" id="page-518"></div><div class="selection" id="page-519"></div><div class="selection" id="page-520"></div><div class="selection" id="page-521"></div><div class="selection" id="page-522"></div><div class="selection" id="page-523"></div><div class="selection" id="page-524"></div><div class="selection" id="page-525"></div><div class="selection" id="page-526"></div><div class="selection" id="page-527"></div><div class="selection" id="page-528"></div><div class="selection" id="page-529"></div><div class="selection" id="page-530"></div><div class="selection" id="page-531"></div><div class="selection" id="page-532"></div><div class="selection" id="page-533"></div><div class="selection" id="page-534"></div><div class="selection" id="page-535"></div><div class="selection" id="page-536"></div><div class="selection" id="page-537"></div><div class="selection" id="page-538"></div><div class="selection" id="page-539"></div><div class="selection" id="page-540"></div><div class="selection" id="page-541"></div><div class="selection" id="page-542"></div><div class="selection" id="page-543"></div><div class="selection" id="page-544"></div><div class="selection" id="page-545"></div><div class="selection" id="page-546"></div><div class="selection" id="page-547"></div><div class="selection" id="page-548"></div><div class="selection" id="page-549"></div><div class="selection" id="page-550"></div><div class="selection" id="page-551"></div><div class="selection" id="page-552"></div><div class="selection" id="page-553"></div><div class="selection" id="page-554"></div><div class="selection" id="page-555"></div><div class="selection" id="page-556"></div><div class="selection" id="page-557"></div><div class="selection" id="page-558"></div><div class="selection" id="page-559"></div><div class="selection" id="page-560"></div><div class="selection" id="page-561"></div><div class="selection" id="page-562"></div><div class="selection" id="page-563"></div><div class="selection" id="page-564"></div><div class="selection" id="page-565"></div><div class="selection" id="page-566"></div><div class="selection" id="page-567"></div><div class="selection" id="page-568"></div><div class="selection" id="page-569"></div><div class="selection" id="page-570"></div><div class="selection" id="page-571"></div><div class="selection" id="page-572"></div><div class="selection" id="page-573"></div><div class="selection" id="page-574"></div><div class="selection" id="page-575"></div><div class="selection" id="page-576"></div><div class="selection" id="page-577"></div><div class="selection" id="page-578"></div><div class="selection" id="page-579"></div><div class="selection" id="page-580"></div><div class="selection" id="page-581"></div><div class="selection" id="page-582"></div><div class="selection" id="page-583"></div><div class="selection" id="page-584"></div><div class="selection" id="page-585"></div><div class="selection" id="page-586"></div><div class="selection" id="page-587"></div><div class="selection" id="page-588"></div><div class="selection" id="page-589"></div><div class="selection" id="page-590"></div><div class="selection" id="page-591"></div><div class="selection" id="page-592"></div><div class="selection" id="page-593"></div><div class="selection" id="page-594"></div><div class="selection" id="page-595"></div><div class="selection" id="page-596"></div><div class="selection" id="page-597"></div><div class="selection" id="page-598"></div><div class="selection" id="page-599"></div><div class="selection" id="page-600"></div><div class="selection" id="page-601"></div><div class="selection" id="page-602"></div><div class="selection" id="page-603"></div><div class="selection" id="page-604"></div><div class="selection" id="page-605"></div><div class="selection" id="page-606"></div><div class="selection" id="page-607"></div><div class="selection" id="page-608"></div><div class="selection" id="page-609"></div><div class="selection" id="page-610"></div><div class="selection" id="page-611"></div><div class="selection" id="page-612"></div><div class="selection" id="page-613"></div><div class="selection" id="page-614"></div><div class="selection" id="page-615"></div><div class="selection" id="page-616"></div><div class="selection" id="page-617"></div><div class="selection" id="page-618"></div><div class="selection" id="page-619"></div><div class="selection" id="page-620"></div><div class="selection" id="page-621"></div><div class="selection" id="page-622"></div><div class="selection" id="page-623"></div><div class="selection" id="page-624"></div><div class="selection" id="page-625"></div><div class="selection" id="page-626"></div><div class="selection" id="page-627"></div><div class="selection" id="page-628"></div><div class="selection" id="page-629"></div><div class="selection" id="page-630"></div><div class="selection" id="page-631"></div><div class="selection" id="page-632"></div><div class="selection" id="page-633"></div><div class="selection" id="page-634"></div><div class="selection" id="page-635"></div><div class="selection" id="page-636"></div><div class="selection" id="page-637"></div><div class="selection" id="page-638"></div><div class="selection" id="page-639"></div><div class="selection" id="page-640"></div><div class="selection" id="page-641"></div><div class="selection" id="page-642"></div><div class="selection" id="page-643"></div><div class="selection" id="page-644"></div><div class="selection" id="page-645"></div><div class="selection" id="page-646"></div><div class="selection" id="page-647"></div><div class="selection" id="page-648"></div><div class="selection" id="page-649"></div><div class="selection" id="page-650"></div><div class="selection" id="page-651"></div><div class="selection" id="page-652"></div><div class="selection" id="page-653"></div><div class="selection" id="page-654"></div><div class="selection" id="page-655"></div><div class="selection" id="page-656"></div><div class="selection" id="page-657"></div><div class="selection" id="page-658"></div><div class="selection" id="page-659"></div><div class="selection" id="page-660"></div><div class="selection" id="page-661"></div><div class="selection" id="page-662"></div><div class="selection" id="page-663"></div><div class="selection" id="page-664"></div><div class="selection" id="page-665"></div><div class="selection" id="page-666"></div><div class="selection" id="page-667"></div><div class="selection" id="page-668"></div><div class="selection" id="page-669"></div><div class="selection" id="page-670"></div><div class="selection" id="page-671"></div><div class="selection" id="page-672"></div><div class="selection" id="page-673"></div><div class="selection" id="page-674"></div><div class="selection" id="page-675"></div><div class="selection" id="page-676"></div><div class="selection" id="page-677"></div><div class="selection" id="page-678"></div><div class="selection" id="page-679"></div><div class="selection" id="page-680"></div><div class="selection" id="page-681"></div><div class="selection" id="page-682"></div><div class="selection" id="page-683"></div><div class="selection" id="page-684"></div><div class="selection" id="page-685"></div><div class="selection" id="page-686"></div><div class="selection" id="page-687"></div><div class="selection" id="page-688"></div><div class="selection" id="page-689"></div><div class="selection" id="page-690"></div><div class="selection" id="page-691"></div><div class="selection" id="page-692"></div><div class="selection" id="page-693"></div><div class="selection" id="page-694"></div><div class="selection" id="page-695"></div><div class="selection" id="page-696"></div><div class="selection" id="page-697"></div><div class="selection" id="page-698"></div><div class="selection" id="page-699"></div><div class="selection" id="page-700"></div>
+
+  <div id="pagination_contlor2" class="pagination-holder clearfix">
+    <div id="light-pagination" class="pagination"></div>
+  </div>
+  <!-- <div id="output"></div> -->
+  <br>
+
+
+<!--// select tag design -->
+  <style><!--
+  select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+
+    -webkit-border-radius:6px;
+  	-moz-border-radius:6px;
+  	-o-border-radius:6px;
+  	-ms-border-radius:6px;
+  	border-radius:6px;
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #aaa;
+    background: #fff;
+  }
+  option { color: #333; }
+  --></style>
+
+  <script>
+  function selectColor() {
+   if($('select').find('option:selected').hasClass('not-select')) {
+      $('select').css({'color': '#bbb'});
+    }
+    $('select').on('change', function(){
+      if($(this).find('option:selected').hasClass('not-select')) {
+        $(this).css({'color': '#bbb'});
+      } else {
+        $(this).css({'color': '#333'});
+      }
+    });
+  }
+  selectColor();
+  </script>
+<!-- https://blog.mismithportfolio.com/web/20160403selectcolor -->
+<!--  select tag design //-->
+
+</body></html>
