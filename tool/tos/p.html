@@ -42,7 +42,8 @@ function mess(e){
 }
 // ACTION
   function onButtonClick_test(){
-    $('#page-1').append('<img src=./i/k_test.jpg>');
+    // $('#page-1').append('<img src=./i/k_test.jpg>');
+    $('#page-1').append('<img src=./i/i1.jpg>');
     document.form1.keyword.focus();
     // enter key
     $( '#keyword' ).keypress( function ( e ) {
@@ -235,14 +236,14 @@ function mess(e){
 
 		ga('create', 'UA-68496450-1', 'auto');
 		ga('send', 'pageview', {
-		  'page': '/p_ktest',
+		  'page': '/p',
 		  'title': ''
 		});
 	</script>
 	<!-- End Google Analytics -->
 </head>
 <body onLoad="onButtonClick_test()">
-<span id="search_detail" style="color:gray;"><a href="index.html" target="_blank">TOP</a>　　Tosのアイテムサーチです。 
+<span id="search_detail" style="color:gray;"><a href="index.html" target="_blank">TOP</a>　　Tosのアイテムサーチです。
 <p>jQuery3.2.0が動作するブラウザで見てください。動作環境：Chrome 〇 firefox 〇 IE △ でした。</p>
 <p>URLの後ろに「?page=アイテムID」で１件のみのデータを表示できます。「<a href="?page=58005" target="_blank">p.html?page=58005</a>」</p>
 </span>
