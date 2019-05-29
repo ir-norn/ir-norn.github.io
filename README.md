@@ -10,7 +10,6 @@
 - ..\sc\jekyll s
 - ..\sc\jekyll s -P 4000
 
-<img src="http://ir-norn.github.io/images/illust4.jpg">
 
 ##todo
 
